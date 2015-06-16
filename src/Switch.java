@@ -54,31 +54,40 @@ public class Switch extends Thread
                                 if(r.getDestination().equals(dest))
                                 {
                                     tmpPort = Config.ports.get(r.getLink());
+                                    if(!r.isWorking())
+                                    {
+                                        tmpPort = -1;
+                                    }
+                                    break;
                                 }
                             }
 
                             final int portToSend = tmpPort;
-                            new Thread(new Runnable()
+                            if(tmpPort != -1)
                             {
-                                @Override
-                                public void run()
+                                new Thread(new Runnable()
                                 {
-                                    //Send TestPacket to next Switch
-                                    try (Socket socket = new Socket("localhost", portToSend);
-                                         ObjectOutputStream oos = new ObjectOutputStream(
-                                                 new BufferedOutputStream(socket.getOutputStream()))
-                                    )
+                                    @Override
+                                    public void run()
                                     {
-                                        tp.setLastHop(name);
-                                        oos.writeObject(tp);
-                                        oos.flush();
-                                    } catch (Exception e)
-                                    {
-                                        System.out.println("ERROR by writing " + tp);
-                                        e.printStackTrace();
+                                        //Send TestPacket to next Switch
+                                        try (Socket socket = new Socket("localhost", portToSend);
+                                             ObjectOutputStream oos = new ObjectOutputStream(
+                                                     new BufferedOutputStream(socket.getOutputStream()))
+                                        )
+                                        {
+                                            tp.setLastHop(name);
+                                            oos.writeObject(tp);
+                                            oos.flush();
+                                            System.out.println(toString() + " sending " + tp);
+                                        } catch (Exception e)
+                                        {
+                                            System.out.println("ERROR by writing " + tp);
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            }).start();
+                                }).start();
+                            }
                         }
                     }
                     while(true);

@@ -11,16 +11,18 @@ import java.net.Socket;
 public class Link extends Thread
 {
     private final int port;
-    private final Switch left;
-    private final Switch right;
+    private final String left;
+    private final String right;
     private final String name;
+    private boolean working;
 
-    public Link(String name, int port, Switch left, Switch right)
+    public Link(String name, int port, String left, String right, boolean working)
     {
         this.name = name;
         this.port = port;
         this.left = left;
         this.right = right;
+        this.setWorking(working);
     }
 
     @Override
@@ -45,35 +47,39 @@ public class Link extends Thread
                             TestPacket tp = (TestPacket) ois.readObject();
 
                             int portToSend = 0;
-                            if (tp.getLastHop().equals(left.getName()))
+                            if (tp.getLastHop().equals(left))
                             {
-                                portToSend = Config.ports.get(right.getName());
+                                portToSend = Config.ports.get(right);
                             } else
                             {
-                                portToSend = Config.ports.get(left.getName());
+                                portToSend = Config.ports.get(left);
                             }
 
                             final int tmpPort = portToSend;
-                            new Thread(new Runnable()
+                            if(working)
                             {
-                                @Override
-                                public void run()
+                                new Thread(new Runnable()
                                 {
-                                    //Send TestPacket to next Switch
-                                    try (Socket socket = new Socket("localhost", tmpPort);
-                                         ObjectOutputStream oos = new ObjectOutputStream(
-                                                 new BufferedOutputStream(socket.getOutputStream()))
-                                    )
+                                    @Override
+                                    public void run()
                                     {
-                                        oos.writeObject(tp);
-                                        oos.flush();
-                                    } catch (Exception e)
-                                    {
-                                        System.out.println("ERROR by writing " + tp);
-                                        e.printStackTrace();
+                                        //Send TestPacket to next Switch
+                                        try (Socket socket = new Socket("localhost", tmpPort);
+                                             ObjectOutputStream oos = new ObjectOutputStream(
+                                                     new BufferedOutputStream(socket.getOutputStream()))
+                                        )
+                                        {
+                                            oos.writeObject(tp);
+                                            oos.flush();
+                                            System.out.println(toString() + " sending " + tp);
+                                        } catch (Exception e)
+                                        {
+                                            System.out.println("ERROR by writing " + tp);
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            }).start();
+                                }).start();
+                            }
                         }
                     }
                     while (true);
@@ -89,6 +95,16 @@ public class Link extends Thread
     public String getNameOfLink()
     {
         return name;
+    }
+
+    public boolean isWorking()
+    {
+        return working;
+    }
+
+    public void setWorking(boolean working)
+    {
+        this.working = working;
     }
 
     @Override

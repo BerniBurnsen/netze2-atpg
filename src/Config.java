@@ -56,28 +56,28 @@ public class Config
     }
 
     public static Rule[] Switch_A_rules = {
-            new Rule("A:r1", Terminal_A, Terminal_A),
-            new Rule("A:r2", Terminal_B, Link_AB),
-            new Rule("A:r3", Terminal_C, Link_AC),
-            new Rule("A:r4", Terminal_D, Link_AB)
+            new Rule("A:r1", Terminal_A, Terminal_A, false),
+            new Rule("A:r2", Terminal_B, Link_AB, true),
+            new Rule("A:r3", Terminal_C, Link_AC, true),
+            new Rule("A:r4", Terminal_D, Link_AB, true)
     };
     public static Rule[] Switch_B_rules = {
-            new Rule("B:r1", Terminal_A, Link_AB),
-            new Rule("B:r2", Terminal_B, Terminal_B),
-            new Rule("B:r3", Terminal_C, Link_AB),
-            new Rule("B:r4", Terminal_D, Link_BD)
+            new Rule("B:r1", Terminal_A, Link_AB, true),
+            new Rule("B:r2", Terminal_B, Terminal_B, true),
+            new Rule("B:r3", Terminal_C, Link_AB, true),
+            new Rule("B:r4", Terminal_D, Link_BD, true)
     };
     public static Rule[] Switch_C_rules = {
-        new Rule("C:r1", Terminal_A, Link_AC),
-        new Rule("C:r2", Terminal_B, Link_AC),
-        new Rule("C:r3", Terminal_C, Terminal_C),
-        new Rule("C:r4", Terminal_D, Link_CD)
+        new Rule("C:r1", Terminal_A, Link_AC, true),
+        new Rule("C:r2", Terminal_B, Link_AC, true),
+        new Rule("C:r3", Terminal_C, Terminal_C, true),
+        new Rule("C:r4", Terminal_D, Link_CD, true)
     };
     public static Rule[] Switch_D_rules = {
-            new Rule("D:r1", Terminal_A, Link_CD),
-            new Rule("D:r2", Terminal_B, Link_BD),
-            new Rule("D:r3", Terminal_C, Link_CD),
-            new Rule("D:r4", Terminal_D, Terminal_D)
+            new Rule("D:r1", Terminal_A, Link_CD, true),
+            new Rule("D:r2", Terminal_B, Link_BD, true),
+            new Rule("D:r3", Terminal_C, Link_CD, true),
+            new Rule("D:r4", Terminal_D, Terminal_D, true)
     };
 
     public static Map<String, Rule[]> rules = new HashMap<>();
@@ -105,6 +105,14 @@ public class Config
 
     public static TestPacket[] reservedPackets = {
             new TestPacket("p6", Terminal_B, Terminal_D, "B:r4", "Link_BD", "D:r4"),
+    };
+
+    public static String[] allRules = {
+            "A:r1", "A:r2", "A:r3", "A:r4",
+            "B:r1", "B:r2", "B:r3", "B:r4",
+            "C:r1", "C:r2", "C:r3", "C:r4",
+            "D:r1", "D:r2", "D:r3", "D:r4",
+            Link_AB, Link_AC, Link_BD, Link_CD
     };
 
 }

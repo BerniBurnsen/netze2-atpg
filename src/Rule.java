@@ -8,12 +8,14 @@ public class Rule implements Serializable
     private final String destination;
     private final String link;
     private final String name;
+    private boolean working;
 
-    public Rule(String name, String destination, String link)
+    public Rule(String name, String destination, String link, boolean working)
     {
         this.destination = destination;
         this.link = link;
         this.name = name;
+        this.setWorking(working);
     }
 
     public String getDestination()
@@ -29,7 +31,7 @@ public class Rule implements Serializable
     @Override
     public boolean equals(Object rule2)
     {
-        if(rule2 == null)   
+        if(rule2 == null)
         {
             return false;
         }
@@ -42,6 +44,16 @@ public class Rule implements Serializable
             }
         }
         return false;
+    }
+
+    public boolean isWorking()
+    {
+        return working;
+    }
+
+    public void setWorking(boolean working)
+    {
+        this.working = working;
     }
 
     @Override

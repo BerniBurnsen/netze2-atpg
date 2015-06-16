@@ -72,6 +72,20 @@ public class TestPacket implements Serializable
     }
 
     @Override
+    public boolean equals(Object o)
+    {
+        if(o != null)
+        {
+            if(o instanceof TestPacket)
+            {
+                TestPacket tp = (TestPacket) o;
+                return tp.getName().equals(this.name);
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String toString()
     {
         return "Packet \"" + name + "\"";
