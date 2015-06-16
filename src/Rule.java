@@ -5,22 +5,25 @@ import java.io.Serializable;
  */
 public class Rule implements Serializable
 {
-    private final int destination, port;
+    private final String destination;
+    private final String link;
+    private final String name;
 
-    public Rule(int destination, int port)
+    public Rule(String name, String destination, String link)
     {
         this.destination = destination;
-        this.port = port;
+        this.link = link;
+        this.name = name;
     }
 
-    public int getDestination()
+    public String getDestination()
     {
         return destination;
     }
 
-    public int getPort()
+    public String getLink()
     {
-        return port;
+        return link;
     }
 
     @Override
@@ -33,11 +36,17 @@ public class Rule implements Serializable
         if(rule2 instanceof Rule)
         {
             Rule rule = (Rule) rule2;
-            if (this.destination == rule.destination && this.port == rule.getPort())
+            if (this.destination.equals(rule.destination) && this.link.equals(rule.getLink()))
             {
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Rule \"" + name + "\"";
     }
 }

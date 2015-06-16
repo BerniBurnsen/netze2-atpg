@@ -4,86 +4,96 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Joncn on 15.06.2015.
+ *
+ * Receives packets and sends them to the next switch/terminal independed from the rules
  */
 public class Switch extends Thread
 {
+    private final String name;
+    private final String[] links;
     private final Rule[] rules;
-    private final int[] ports;
+    private final int port;
 
-    public Switch(Rule[] rules, int... ports)
+    public Switch(String name,int port,Rule[] rules, String... links)
     {
+        this.name = name;
+        this.links = links;
+        this.port = port;
         this.rules = rules;
-        this.ports = ports;
     }
 
     @Override
     public void run()
     {
-        for(int i = 0; i < ports.length; i++)
+        new Thread(new Runnable()
         {
-            final int portNumber = i;
-            new Thread(new Runnable()
+            @Override
+            public void run()
             {
-                @Override
-                public void run()
+                try (ServerSocket serverSocket = new ServerSocket(port))
                 {
-                    try (ServerSocket serverSocket = new ServerSocket(ports[portNumber]))
+                    do
                     {
-                        do
+                        try(Socket clientSocket = serverSocket.accept();
+                            ObjectInputStream ois = new ObjectInputStream(
+                                new BufferedInputStream(
+                                        clientSocket.getInputStream()))
+                        )
                         {
-                            try(Socket clientSocket = serverSocket.accept();
-                                ObjectInputStream ois = new ObjectInputStream(
-                                    new BufferedInputStream(
-                                            clientSocket.getInputStream()))
-                            )
+                            //Receive TestPacket
+                            TestPacket tp = (TestPacket) ois.readObject();
+                            String dest = tp.getDestination();
+
+                            int tmpPort = 0;
+                            for(Rule r : rules)
                             {
-                                //Receive TestPacket
-                                TestPacket tp = (TestPacket) ois.readObject();
-                                int dest = tp.getDestination();
-                                int portToSend = 0;
-                                for (Rule rule : rules)
+                                if(r.getDestination().equals(dest))
                                 {
-                                    if (dest == rule.getDestination())
+                                    tmpPort = Config.ports.get(r.getLink()));
+                                }
+                            }
+
+                            final int portToSend = tmpPort;
+                            new Thread(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    //Send TestPacket to next Switch
+                                    try (Socket socket = new Socket("localhost", portToSend);
+                                         ObjectOutputStream oos = new ObjectOutputStream(
+                                                 new BufferedOutputStream(socket.getOutputStream()))
+                                    )
                                     {
-                                        portToSend = rule.getPort();
+                                        tp.setLastHop(name);
+                                        oos.writeObject(tp);
+                                        oos.flush();
+                                    } catch (Exception e)
+                                    {
+                                        System.out.println("ERROR by writing " + tp);
+                                        e.printStackTrace();
                                     }
                                 }
-
-                                final int tmpPort = portToSend;
-                                new Thread(new Runnable()
-                                {
-                                    @Override
-                                    public void run()
-                                    {
-                                        //Send TestPacket to next Switch
-                                        try (Socket socket = new Socket("localhost", tmpPort);
-                                             ObjectOutputStream oos = new ObjectOutputStream(
-                                                     new BufferedOutputStream(socket.getOutputStream()))
-                                        )
-                                        {
-                                            oos.writeObject(tp);
-                                            oos.flush();
-                                        } catch (Exception e)
-                                        {
-                                            System.out.println("ERROR by writing " + tp);
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).start();
-                            }
+                            }).start();
                         }
-                        while(true);
-                    } catch (Exception e)
-                    {
-                        System.out.println("ERROR");
-                        e.printStackTrace();
                     }
+                    while(true);
+                } catch (Exception e)
+                {
+                    System.out.println("ERROR");
+                    e.printStackTrace();
                 }
-            }).start();
-        }
+            }
+        }).start();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Switch \"" + name + "\"";
     }
 }

@@ -5,55 +5,75 @@ import java.io.Serializable;
  */
 public class TestPacket implements Serializable
 {
-    private Rule[] ruleHistory;
-    private int destination;
-    private int source;
+    private String[] ruleHistory;
+    private String name;
+    private String destination;
+    private String source;
+    private String lastHop = null;
 
     public TestPacket()
     {
 
     }
 
-    public TestPacket(int source, int destination, Rule... ruleHistory)
+    public TestPacket(String name, String source, String destination, String... ruleHistory)
     {
+        this.name = name;
         this.setSource(source);
         this.setDestination(destination);
         this.setRuleHistory(ruleHistory);
     }
 
-    public Rule[] getRuleHistory()
+    public String[] getRuleHistory()
     {
         return ruleHistory;
     }
 
-    public int getDestination()
+    public String getDestination()
     {
         return destination;
     }
 
-    public int getSource()
+    public String getSource()
     {
         return source;
     }
 
-    public void setRuleHistory(Rule[] ruleHistory)
+    public String getLastHop()
+    {
+        return lastHop;
+    }
+
+    public String getName() { return name;}
+
+    public void setRuleHistory(String[] ruleHistory)
     {
         this.ruleHistory = ruleHistory;
     }
 
-    public void setDestination(int destination)
+    public void setDestination(String destination)
     {
         this.destination = destination;
     }
 
-    public void setSource(int source)
+    public void setSource(String source)
     {
         this.source = source;
+    }
+
+    public void setLastHop(String lastHop)
+    {
+        this.lastHop = lastHop;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     @Override
     public String toString()
     {
-        return "TestPacket: source: " + getSource() + " destination: " + getDestination();
+        return "Packet \"" + name + "\"";
     }
 }

@@ -40,7 +40,7 @@ public class TestTerminal extends Thread
                             )
                             {
                                 TestPacket tp = (TestPacket) ois.readObject();
-                                System.out.println("Got Packet: " + tp);
+                                System.out.println(tp.getDestination() + " gets Packet: " + tp);
                             }
                             catch( Exception e)
                             {
@@ -66,7 +66,7 @@ public class TestTerminal extends Thread
                 System.out.println("TESTTERMINAL: sending...");
                 for(int i = 0; i < Config.neededPackets.length; i++)
                 {
-                    try (Socket so = new Socket("localhost", Config.neededPackets[i].getSource());
+                    try (Socket so = new Socket("localhost", Config.ports.get(Config.neededPackets[i].getSource()));
                             ObjectOutputStream oos = new ObjectOutputStream(
                             new BufferedOutputStream(
                                     so.getOutputStream()))

@@ -1,51 +1,110 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Joncn on 15.06.2015.
  */
 public class Config
 {
-    public static int[] testTerminalPorts = {10001, 10002, 10003};
+    public static String Switch_A = "Switch A";
+    public static String Switch_B = "Switch B";
+    public static String Switch_C = "Switch C";
+    public static String Switch_D = "Switch D";
 
-    public static int[] switch1Ports = {11001, 11002, 11003};
-    public static int[] switch2Ports = {12001, 12002, 12003};
-    public static int[] switch3Ports = {13001, 13002, 13003};
+    public static String Terminal_A = "Terminal A";
+    public static String Terminal_B = "Terminal B";
+    public static String Terminal_C = "Terminal C";
+    public static String Terminal_D = "Terminal D";
 
-    public static Rule[] switch1Rules = {
-            new Rule(10001, 10001),
-            new Rule(10002, 12001),
-            new Rule(10003, 13001)
+    public static String Link_AB = "Link AB";
+    public static String Link_AC = "Link AC";
+    public static String Link_BD = "Link BD";
+    public static String Link_CD = "Link CD";
+
+    public static int Terminal_A_port = 10001;
+    public static int Terminal_B_port = 10002;
+    public static int Terminal_C_port = 10003;
+    public static int Terminal_D_port = 10004;
+
+    public static int Switch_A_port = 10005;
+    public static int Switch_B_port = 10006;
+    public static int Switch_C_port = 10007;
+    public static int Switch_D_port = 10008;
+
+    public static int Link_AB_port = 10009;
+    public static int Link_AC_port = 10010;
+    public static int Link_BD_port = 10011;
+    public static int Link_CD_port = 10012;
+
+    public static Map<String, Integer> ports = new HashMap<>();
+    static
+    {
+        ports.put(Terminal_A, Terminal_A_port);
+        ports.put(Terminal_B, Terminal_B_port);
+        ports.put(Terminal_C, Terminal_C_port);
+        ports.put(Terminal_D, Terminal_D_port);
+        ports.put(Switch_A, Switch_A_port);
+        ports.put(Switch_B, Switch_B_port);
+        ports.put(Switch_C, Switch_C_port);
+        ports.put(Switch_D, Switch_D_port);
+        ports.put(Link_AB, Link_AB_port);
+        ports.put(Link_AC, Link_AC_port);
+        ports.put(Link_BD, Link_BD_port);
+        ports.put(Link_CD, Link_CD_port);
+    }
+
+    public static Rule[] Switch_A_rules = {
+            new Rule("A:r1", Terminal_A, Terminal_A),
+            new Rule("A:r2", Terminal_B, Link_AB),
+            new Rule("A:r3", Terminal_C, Link_AC),
+            new Rule("A:r4", Terminal_D, Link_AB)
+    };
+    public static Rule[] Switch_B_rules = {
+            new Rule("B:r1", Terminal_A, Link_AB),
+            new Rule("B:r2", Terminal_B, Terminal_B),
+            new Rule("B:r3", Terminal_C, Link_AB),
+            new Rule("B:r4", Terminal_D, Link_BD)
+    };
+    public static Rule[] Switch_C_rules = {
+        new Rule("C:r1", Terminal_A, Link_AC),
+        new Rule("C:r2", Terminal_B, Link_AC),
+        new Rule("C:r3", Terminal_C, Terminal_C),
+        new Rule("C:r4", Terminal_D, Link_CD)
+    };
+    public static Rule[] Switch_D_rules = {
+            new Rule("D:r1", Terminal_A, Link_CD),
+            new Rule("D:r2", Terminal_B, Link_BD),
+            new Rule("D:r3", Terminal_C, Link_CD),
+            new Rule("D:r4", Terminal_D, Terminal_D)
     };
 
-    public static Rule[] switch2Rules = {
-            new Rule(10001, 11002),
-            new Rule(10002, 10002),
-            new Rule(10003, 13002)
-    };
-
-    public static Rule[] switch3Rules = {
-            new Rule(10001, 11003),
-            new Rule(10002, 12003),
-            new Rule(10003, 10003)
-    };
-
-    private static Rule[] packet1History = {switch1Rules[1], switch2Rules[1]};
-    private static Rule[] packet2History = {switch1Rules[2], switch3Rules[2]};
-    private static Rule[] packet3History = {switch2Rules[0], switch1Rules[0]};
-    private static Rule[] packet4History = {switch2Rules[2], switch3Rules[2]};
-    private static Rule[] packet5History = {switch3Rules[0], switch1Rules[0]};
-    private static Rule[] packet6History = {switch3Rules[1], switch2Rules[1]};
+    public static Map<String, Rule[]> rules = new HashMap<>();
+    static
+    {
+        rules.put(Switch_A, Switch_A_rules);
+        rules.put(Switch_B, Switch_B_rules);
+        rules.put(Switch_C, Switch_C_rules);
+        rules.put(Switch_D, Switch_D_rules);
+    }
 
     public static TestPacket[] neededPackets = {
-            new TestPacket(11001, 10002, packet1History),
-            new TestPacket(11001, 10003, packet2History),
-            new TestPacket(12002, 10001, packet3History),
-            new TestPacket(12002, 10003, packet4History),
-            new TestPacket(13003, 10001, packet5History),
+            new TestPacket("p1", Terminal_A, Terminal_B, "A:r2", "Link_AB", "B:r2"),
+            new TestPacket("p2", Terminal_A, Terminal_C, "A:r3", "Link_AC", "C:r3"),
+            new TestPacket("p3", Terminal_A, Terminal_D, "A:r4", "Link_AB", "B:r4", "Link_BD", "D:r4"),
+            new TestPacket("p4", Terminal_B, Terminal_A, "B:r1", "Link_AB", "A:r1"),
+            new TestPacket("p5", Terminal_B, Terminal_C, "B:r3", "Link_AB", "A:r3", "Link_AC", "C:r3"),
+            new TestPacket("p7", Terminal_C, Terminal_A, "C:r1", "Link_AC", "A:r1"),
+            new TestPacket("p8", Terminal_C, Terminal_B, "C:r2", "Link_AC", "A:r2", "Link_AB", "B:r2"),
+            new TestPacket("p9", Terminal_C, Terminal_D, "C:r4", "Link_CD", "D:r4"),
+            new TestPacket("p10", Terminal_D, Terminal_A, "D:r1", "Link_CD", "C:r1", "Link_AC", "A:r1"),
+            new TestPacket("p11", Terminal_D, Terminal_B, "D:r2", "Link_BD", "B:r2"),
+            new TestPacket("p12", Terminal_D, Terminal_C, "D:r3", "Link_CD", "C:r3")
     };
 
-    public static TestPacket[] resercedPackets = {
-            new TestPacket(13003, 10002, packet6History)
+    public static TestPacket[] reservedPackets = {
+            new TestPacket("p6", Terminal_B, Terminal_D, "B:r4", "Link_BD", "D:r4"),
     };
+
 }
