@@ -4,26 +4,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Map;
 
 /**
- * Created by Joncn on 15.06.2015.
- *
- * Receives packets and sends them to the next switch/terminal independed from the rules
+ * Created by Joncn on 16.06.2015.
  */
-public class Switch extends Thread
+public class Link extends Thread
 {
-    private final String name;
-    private final String[] links;
-    private final Rule[] rules;
     private final int port;
+    private final Switch left;
+    private final Switch right;
+    private final String name;
 
-    public Switch(String name,int port,Rule[] rules, String... links)
+    public Link(String name, int port, Switch left, Switch right)
     {
         this.name = name;
-        this.links = links;
         this.port = port;
-        this.rules = rules;
+        this.left = left;
+        this.right = right;
     }
 
     @Override
@@ -38,38 +35,36 @@ public class Switch extends Thread
                 {
                     do
                     {
-                        try(Socket clientSocket = serverSocket.accept();
-                            ObjectInputStream ois = new ObjectInputStream(
-                                new BufferedInputStream(
-                                        clientSocket.getInputStream()))
+                        try (Socket clientSocket = serverSocket.accept();
+                             ObjectInputStream ois = new ObjectInputStream(
+                                     new BufferedInputStream(
+                                             clientSocket.getInputStream()))
                         )
                         {
                             //Receive TestPacket
                             TestPacket tp = (TestPacket) ois.readObject();
-                            String dest = tp.getDestination();
 
-                            int tmpPort = 0;
-                            for(Rule r : rules)
+                            int portToSend = 0;
+                            if (tp.getLastHop().equals(left.getName()))
                             {
-                                if(r.getDestination().equals(dest))
-                                {
-                                    tmpPort = Config.ports.get(r.getLink());
-                                }
+                                portToSend = Config.ports.get(right.getName());
+                            } else
+                            {
+                                portToSend = Config.ports.get(left.getName());
                             }
 
-                            final int portToSend = tmpPort;
+                            final int tmpPort = portToSend;
                             new Thread(new Runnable()
                             {
                                 @Override
                                 public void run()
                                 {
                                     //Send TestPacket to next Switch
-                                    try (Socket socket = new Socket("localhost", portToSend);
+                                    try (Socket socket = new Socket("localhost", tmpPort);
                                          ObjectOutputStream oos = new ObjectOutputStream(
                                                  new BufferedOutputStream(socket.getOutputStream()))
                                     )
                                     {
-                                        tp.setLastHop(name);
                                         oos.writeObject(tp);
                                         oos.flush();
                                     } catch (Exception e)
@@ -81,7 +76,7 @@ public class Switch extends Thread
                             }).start();
                         }
                     }
-                    while(true);
+                    while (true);
                 } catch (Exception e)
                 {
                     System.out.println("ERROR");
@@ -91,9 +86,14 @@ public class Switch extends Thread
         }).start();
     }
 
+    public String getNameOfLink()
+    {
+        return name;
+    }
+
     @Override
     public String toString()
     {
-        return "Switch \"" + name + "\"";
+        return "Link \"" + name + "\"";
     }
 }

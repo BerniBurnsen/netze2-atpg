@@ -29,7 +29,7 @@ public class Rule implements Serializable
     @Override
     public boolean equals(Object rule2)
     {
-        if(rule2 == null)
+        if(rule2 == null)   
         {
             return false;
         }
