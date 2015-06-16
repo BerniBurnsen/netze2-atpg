@@ -71,7 +71,7 @@ public class Link extends Thread
                                         {
                                             oos.writeObject(tp);
                                             oos.flush();
-                                            System.out.println(toString() + " sending " + tp);
+                                            //System.out.println(getNameOfLink() + " sending " + tp);
                                         } catch (Exception e)
                                         {
                                             System.out.println("ERROR by writing " + tp);

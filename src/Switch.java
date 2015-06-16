@@ -79,7 +79,7 @@ public class Switch extends Thread
                                             tp.setLastHop(name);
                                             oos.writeObject(tp);
                                             oos.flush();
-                                            System.out.println(toString() + " sending " + tp);
+                                            //System.out.println(name + " sending " + tp);
                                         } catch (Exception e)
                                         {
                                             System.out.println("ERROR by writing " + tp);

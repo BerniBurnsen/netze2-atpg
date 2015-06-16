@@ -8,7 +8,7 @@ public class TestPacket implements Serializable
     private String[] ruleHistory;
     private String name;
     private String destination;
-    private String source;
+    private String firstHop;
     private String lastHop = null;
 
     public TestPacket()
@@ -16,10 +16,10 @@ public class TestPacket implements Serializable
 
     }
 
-    public TestPacket(String name, String source, String destination, String... ruleHistory)
+    public TestPacket(String name, String firstHop, String destination, String... ruleHistory)
     {
         this.name = name;
-        this.setSource(source);
+        this.setFirstHop(firstHop);
         this.setDestination(destination);
         this.setRuleHistory(ruleHistory);
     }
@@ -34,9 +34,9 @@ public class TestPacket implements Serializable
         return destination;
     }
 
-    public String getSource()
+    public String getFirstHop()
     {
-        return source;
+        return firstHop;
     }
 
     public String getLastHop()
@@ -56,9 +56,9 @@ public class TestPacket implements Serializable
         this.destination = destination;
     }
 
-    public void setSource(String source)
+    public void setFirstHop(String firstHop)
     {
-        this.source = source;
+        this.firstHop = firstHop;
     }
 
     public void setLastHop(String lastHop)

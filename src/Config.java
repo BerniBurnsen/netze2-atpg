@@ -56,14 +56,14 @@ public class Config
     }
 
     public static Rule[] Switch_A_rules = {
-            new Rule("A:r1", Terminal_A, Terminal_A, false),
+            new Rule("A:r1", Terminal_A, Terminal_A, true),
             new Rule("A:r2", Terminal_B, Link_AB, true),
             new Rule("A:r3", Terminal_C, Link_AC, true),
             new Rule("A:r4", Terminal_D, Link_AB, true)
     };
     public static Rule[] Switch_B_rules = {
             new Rule("B:r1", Terminal_A, Link_AB, true),
-            new Rule("B:r2", Terminal_B, Terminal_B, true),
+            new Rule("B:r2", Terminal_B, Terminal_B, false),
             new Rule("B:r3", Terminal_C, Link_AB, true),
             new Rule("B:r4", Terminal_D, Link_BD, true)
     };
@@ -90,21 +90,21 @@ public class Config
     }
 
     public static TestPacket[] neededPackets = {
-            new TestPacket("p1", Terminal_A, Terminal_B, "A:r2", "Link_AB", "B:r2"),
-            new TestPacket("p2", Terminal_A, Terminal_C, "A:r3", "Link_AC", "C:r3"),
-            new TestPacket("p3", Terminal_A, Terminal_D, "A:r4", "Link_AB", "B:r4", "Link_BD", "D:r4"),
-            new TestPacket("p4", Terminal_B, Terminal_A, "B:r1", "Link_AB", "A:r1"),
-            new TestPacket("p5", Terminal_B, Terminal_C, "B:r3", "Link_AB", "A:r3", "Link_AC", "C:r3"),
-            new TestPacket("p7", Terminal_C, Terminal_A, "C:r1", "Link_AC", "A:r1"),
-            new TestPacket("p8", Terminal_C, Terminal_B, "C:r2", "Link_AC", "A:r2", "Link_AB", "B:r2"),
-            new TestPacket("p9", Terminal_C, Terminal_D, "C:r4", "Link_CD", "D:r4"),
-            new TestPacket("p10", Terminal_D, Terminal_A, "D:r1", "Link_CD", "C:r1", "Link_AC", "A:r1"),
-            new TestPacket("p11", Terminal_D, Terminal_B, "D:r2", "Link_BD", "B:r2"),
-            new TestPacket("p12", Terminal_D, Terminal_C, "D:r3", "Link_CD", "C:r3")
+            new TestPacket("p1", Switch_A, Terminal_B, "A:r2", "Link_AB", "B:r2"),
+            new TestPacket("p2", Switch_A, Terminal_C, "A:r3", "Link_AC", "C:r3"),
+            new TestPacket("p3", Switch_A, Terminal_D, "A:r4", "Link_AB", "B:r4", "Link_BD", "D:r4"),
+            new TestPacket("p4", Switch_B, Terminal_A, "B:r1", "Link_AB", "A:r1"),
+            new TestPacket("p5", Switch_B, Terminal_C, "B:r3", "Link_AB", "A:r3", "Link_AC", "C:r3"),
+            new TestPacket("p7", Switch_C, Terminal_A, "C:r1", "Link_AC", "A:r1"),
+            new TestPacket("p8", Switch_C, Terminal_B, "C:r2", "Link_AC", "A:r2", "Link_AB", "B:r2"),
+            new TestPacket("p9", Switch_C, Terminal_D, "C:r4", "Link_CD", "D:r4"),
+            new TestPacket("p10", Switch_D, Terminal_A, "D:r1", "Link_CD", "C:r1", "Link_AC", "A:r1"),
+            new TestPacket("p11", Switch_D, Terminal_B, "D:r2", "Link_BD", "B:r2"),
+            new TestPacket("p12", Switch_D, Terminal_C, "D:r3", "Link_CD", "C:r3")
     };
 
     public static TestPacket[] reservedPackets = {
-            new TestPacket("p6", Terminal_B, Terminal_D, "B:r4", "Link_BD", "D:r4"),
+            new TestPacket("p6", Switch_B, Terminal_D, "B:r4", "Link_BD", "D:r4"),
     };
 
     public static String[] allRules = {

@@ -17,8 +17,8 @@ public class Main
         tt.start();
         System.out.println("TestTerminal started!");
 
-        while(true)
-        {
+      /*  while(true)
+        {*/
             try
             {
                 Thread.sleep(2000);
@@ -28,6 +28,6 @@ public class Main
             }
 
             tt.setSend(true);
-        }
+/*        }*/
     }
 }

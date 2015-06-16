@@ -24,6 +24,8 @@ public class TestTerminal extends Thread
 
     public void run()
     {
+
+        System.out.print("Received Packets: ");
         for(int i = 0; i < ports.length; i++)
         {
             final int portIndex = i;
@@ -44,7 +46,7 @@ public class TestTerminal extends Thread
                             {
                                 TestPacket tp = (TestPacket) ois.readObject();
                                 receivedPackets.add(tp);
-                                System.out.println(tp.getDestination() + " gets Packet: " + tp);
+                                System.out.print(tp);
                             }
                             catch( Exception e)
                             {
@@ -60,7 +62,7 @@ public class TestTerminal extends Thread
                 }
             }).start();
         }
-        System.out.println("TESTTERMINAL: Sockets opened");
+        //System.out.println("TESTTERMINAL: Sockets opened");
 
         try
         {
@@ -76,16 +78,16 @@ public class TestTerminal extends Thread
             {
                 receivedPackets.clear();
                 missingPackets.clear();
-                System.out.println("TESTTERMINAL: sending...");
+                //System.out.println("TESTTERMINAL: sending...");
                 for(int i = 0; i < Config.neededPackets.length; i++)
                 {
-                    try (Socket so = new Socket("localhost", Config.ports.get(Config.neededPackets[i].getSource()));
+                    try (Socket so = new Socket("localhost", Config.ports.get(Config.neededPackets[i].getFirstHop()));
                             ObjectOutputStream oos = new ObjectOutputStream(
                             new BufferedOutputStream(
                                     so.getOutputStream()))
                     )
                     {
-                        System.out.println("Sending Packet: " + Config.neededPackets[i]);
+                        //System.out.println("Sending Packet: " + Config.neededPackets[i]);
                         oos.writeObject(Config.neededPackets[i]);
                     }
                     catch ( Exception e)
@@ -94,7 +96,7 @@ public class TestTerminal extends Thread
                     }
                     try
                     {
-                        Thread.sleep(3000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e)
                     {
                         e.printStackTrace();
@@ -111,19 +113,10 @@ public class TestTerminal extends Thread
                 e.printStackTrace();
             }
 
-            //Check received Packets
-            if(receivedPackets.size() != Config.neededPackets.length)
-            {
-                for(TestPacket tp : Config.neededPackets)
-                {
-                    if(!receivedPackets.contains(tp))
-                    {
-                        missingPackets.add(tp);
-                    }
-                }
-            }
+
             if(missingPackets.size() > 0)
             {
+                System.out.println("missingPackets.size() = " + missingPackets.size());
                 Set<String> missingRules = new HashSet<>();
                 for(TestPacket p : missingPackets)
                 {
@@ -139,13 +132,30 @@ public class TestTerminal extends Thread
                         }
                     }
                 }
+                System.out.println("Missing Rules: " + missingRules);
+
+
+                //Check received Packets
+                if(receivedPackets.size() != Config.neededPackets.length)
+                {
+                    System.out.println("packets missing");
+                    System.out.println("receivedPackets.size() = " + receivedPackets.size());
+                    System.out.println("Config.neededPackets.length = " + Config.neededPackets.length);
+                    for(TestPacket tp : Config.neededPackets)
+                    {
+                        if(!receivedPackets.contains(tp))
+                        {
+                            missingPackets.add(tp);
+                        }
+                    }
+                }
 
                 if(missingRules.size() > 1)
                 {
                     //Find failure
                     for(int i = 0; i < Config.reservedPackets.length; i++)
                     {
-                        try (Socket so = new Socket("localhost", Config.ports.get(Config.reservedPackets[i].getSource()));
+                        try (Socket so = new Socket("localhost", Config.ports.get(Config.reservedPackets[i].getFirstHop()));
                              ObjectOutputStream oos = new ObjectOutputStream(
                                      new BufferedOutputStream(
                                              so.getOutputStream()))
@@ -167,6 +177,7 @@ public class TestTerminal extends Thread
             }
             else
             {
+                System.out.println("----- Network OK! ------ ");
                 try
                 {
                     Thread.sleep(3000);
