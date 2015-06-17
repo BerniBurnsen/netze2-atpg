@@ -18,12 +18,14 @@ public class Switch extends Thread
     private final Rule[] rules;
     private final int port;
 
-    public Switch(String name,int port,Rule[] rules, String... links)
+    public Switch(String name, int port, Rule[] rules, String... links)
     {
         this.name = name;
         this.links = links;
         this.port = port;
         this.rules = rules;
+        System.out.println(name + " " + rules.length);
+        System.out.println(name + " " + links.length);
     }
 
     @Override
@@ -49,16 +51,20 @@ public class Switch extends Thread
                             String dest = tp.getDestination();
 
                             int tmpPort = 0;
+                            ruleFinding:
                             for(Rule r : rules)
                             {
-                                if(r.getDestination().equals(dest))
+                                for(String s : r.getDestinations())
                                 {
-                                    tmpPort = Config.ports.get(r.getLink());
-                                    if(!r.isWorking())
+                                    if(s.equals(dest))
                                     {
-                                        tmpPort = -1;
+                                        tmpPort = Config.ports.get(r.getLink());
+                                        if(!r.isWorking())
+                                        {
+                                            tmpPort = -1;
+                                        }
+                                        break ruleFinding;
                                     }
-                                    break;
                                 }
                             }
 

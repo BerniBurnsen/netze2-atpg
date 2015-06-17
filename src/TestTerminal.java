@@ -113,6 +113,20 @@ public class TestTerminal extends Thread
                 e.printStackTrace();
             }
 
+            //Check received Packets
+            if(receivedPackets.size() != Config.neededPackets.length)
+            {
+                System.out.println("packets missing");
+                System.out.println("receivedPackets.size() = " + receivedPackets.size());
+                System.out.println("Config.neededPackets.length = " + Config.neededPackets.length);
+                for(TestPacket tp : Config.neededPackets)
+                {
+                    if(!receivedPackets.contains(tp))
+                    {
+                        missingPackets.add(tp);
+                    }
+                }
+            }
 
             if(missingPackets.size() > 0)
             {
@@ -133,22 +147,6 @@ public class TestTerminal extends Thread
                     }
                 }
                 System.out.println("Missing Rules: " + missingRules);
-
-
-                //Check received Packets
-                if(receivedPackets.size() != Config.neededPackets.length)
-                {
-                    System.out.println("packets missing");
-                    System.out.println("receivedPackets.size() = " + receivedPackets.size());
-                    System.out.println("Config.neededPackets.length = " + Config.neededPackets.length);
-                    for(TestPacket tp : Config.neededPackets)
-                    {
-                        if(!receivedPackets.contains(tp))
-                        {
-                            missingPackets.add(tp);
-                        }
-                    }
-                }
 
                 if(missingRules.size() > 1)
                 {

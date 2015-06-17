@@ -1,26 +1,38 @@
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 /**
  * Created by Joncn on 15.06.2015.
  */
 public class Rule implements Serializable
 {
-    private final String destination;
+    private String[] destinations;
     private final String link;
     private final String name;
     private boolean working;
 
-    public Rule(String name, String destination, String link, boolean working)
+    public Rule(String name, boolean working, String link, String destination, String... destinations)
     {
-        this.destination = destination;
+        if(destinations != null && destinations.length > 0)
+        {
+            LinkedList<String> tmp = new LinkedList<>();
+            tmp.addFirst(destination);
+            tmp.addAll(Arrays.asList(destinations));
+            destinations = tmp.toArray(destinations);
+        }
+        else
+        {
+            destinations = new String[] {destination};
+        }
         this.link = link;
         this.name = name;
         this.setWorking(working);
     }
 
-    public String getDestination()
+    public String[] getDestinations()
     {
-        return destination;
+        return destinations;
     }
 
     public String getLink()
@@ -38,7 +50,7 @@ public class Rule implements Serializable
         if(rule2 instanceof Rule)
         {
             Rule rule = (Rule) rule2;
-            if (this.destination.equals(rule.destination) && this.link.equals(rule.getLink()))
+            if (Arrays.equals(this.destinations, rule.destinations) && this.link.equals(rule.getLink()))
             {
                 return true;
             }
