@@ -48,6 +48,7 @@ public class Switch extends Thread
                         {
                             //Receive TestPacket
                             TestPacket tp = (TestPacket) ois.readObject();
+                            System.out.println(name + " received " + tp);
                             String dest = tp.getDestination();
 
                             int tmpPort = 0;
@@ -62,6 +63,10 @@ public class Switch extends Thread
                                         if(!r.isWorking())
                                         {
                                             tmpPort = -1;
+                                        }
+                                        else
+                                        {
+                                            System.out.println(name + " sending " + tp + " to " + r.getLink());
                                         }
                                         break ruleFinding;
                                     }
@@ -83,6 +88,7 @@ public class Switch extends Thread
                                         )
                                         {
                                             tp.setLastHop(name);
+                                            sleep(1000);
                                             oos.writeObject(tp);
                                             oos.flush();
                                             //System.out.println(name + " sending " + tp);

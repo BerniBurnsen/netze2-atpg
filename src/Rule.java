@@ -7,7 +7,7 @@ import java.util.LinkedList;
  */
 public class Rule implements Serializable
 {
-    private String[] destinations;
+    private final String[] destinations;
     private final String link;
     private final String name;
     private boolean working;
@@ -19,11 +19,11 @@ public class Rule implements Serializable
             LinkedList<String> tmp = new LinkedList<>();
             tmp.addFirst(destination);
             tmp.addAll(Arrays.asList(destinations));
-            destinations = tmp.toArray(destinations);
+            this.destinations = tmp.toArray(destinations);
         }
         else
         {
-            destinations = new String[] {destination};
+            this.destinations = new String[] {destination};
         }
         this.link = link;
         this.name = name;

@@ -1,3 +1,5 @@
+import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ObjectInputStream;
@@ -14,6 +16,8 @@ public class TestTerminal extends Thread
     private final int[] ports;
     private boolean send = false;
 
+    private Mutex mutex = new Mutex();
+
     private List<TestPacket> receivedPackets = new ArrayList<>();
     private List<TestPacket> missingPackets = new ArrayList<>();
 
@@ -24,8 +28,6 @@ public class TestTerminal extends Thread
 
     public void run()
     {
-
-        System.out.print("Received Packets: ");
         for(int i = 0; i < ports.length; i++)
         {
             final int portIndex = i;
@@ -46,7 +48,10 @@ public class TestTerminal extends Thread
                             {
                                 TestPacket tp = (TestPacket) ois.readObject();
                                 receivedPackets.add(tp);
-                                System.out.print(tp);
+                                System.out.println(tp.getDestination().replaceAll("Switch", "Terminal") + " received " + tp);
+                                System.out.println("----- " + tp + " -----");
+                                sleep(1000);
+                                mutex.release();
                             }
                             catch( Exception e)
                             {
@@ -62,15 +67,6 @@ public class TestTerminal extends Thread
                 }
             }).start();
         }
-        //System.out.println("TESTTERMINAL: Sockets opened");
-
-        try
-        {
-            Thread.sleep(3000);
-        } catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
 
         while(true)
         {
@@ -78,7 +74,6 @@ public class TestTerminal extends Thread
             {
                 receivedPackets.clear();
                 missingPackets.clear();
-                //System.out.println("TESTTERMINAL: sending...");
                 for(int i = 0; i < Config.neededPackets.length; i++)
                 {
                     try (Socket so = new Socket("localhost", Config.ports.get(Config.neededPackets[i].getFirstHop()));
@@ -87,30 +82,19 @@ public class TestTerminal extends Thread
                                     so.getOutputStream()))
                     )
                     {
-                        //System.out.println("Sending Packet: " + Config.neededPackets[i]);
+                        TestPacket tp = Config.neededPackets[i];
+                        mutex.attempt(10000);
+                        System.out.println("");
+                        System.out.println("----- " + tp + " -----");
+                        System.out.println(tp.getFirstHop().replaceAll("Switch", "Terminal") + " sending " + tp);
                         oos.writeObject(Config.neededPackets[i]);
                     }
                     catch ( Exception e)
                     {
                         e.printStackTrace();
                     }
-                    try
-                    {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
                 }
                 send = false;
-            }
-
-            try
-            {
-                Thread.sleep(2000);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
             }
 
             //Check received Packets
@@ -176,13 +160,6 @@ public class TestTerminal extends Thread
             else
             {
                 System.out.println("----- Network OK! ------ ");
-                try
-                {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
             }
         }
     }

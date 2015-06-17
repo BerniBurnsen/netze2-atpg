@@ -46,13 +46,16 @@ public class Link extends Thread
                             //Receive TestPacket
                             TestPacket tp = (TestPacket) ois.readObject();
 
+                            System.out.println(name + " received " + tp);
                             int portToSend = 0;
                             if (tp.getLastHop().equals(left))
                             {
                                 portToSend = Config.ports.get(right);
+                                System.out.println(name + " sending " + tp + " to " + right);
                             } else
                             {
                                 portToSend = Config.ports.get(left);
+                                System.out.println(name + " sending " + tp + " to " + left);
                             }
 
                             final int tmpPort = portToSend;
@@ -69,6 +72,7 @@ public class Link extends Thread
                                                      new BufferedOutputStream(socket.getOutputStream()))
                                         )
                                         {
+                                            sleep(1000);
                                             oos.writeObject(tp);
                                             oos.flush();
                                             //System.out.println(getNameOfLink() + " sending " + tp);
