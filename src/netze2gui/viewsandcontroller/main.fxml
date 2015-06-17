@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/2.2" fx:controller="netze2gui.viewsandcontroller.MainController">
+    <children>
+        <ImageView fx:id="SwitchAImageView" fitHeight="194.11111450195312" fitWidth="104.82000068860734" layoutX="128.0"
+                   layoutY="119.0" opacity="1.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/router.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="SwitchBImageView" fitHeight="194.11111450195312" fitWidth="104.82000068860734" layoutX="570.0"
+                   layoutY="119.0" opacity="1.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/router.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="SwitchCImageView" fitHeight="78.61500549316406" fitWidth="104.82000732421875" layoutX="348.0"
+                   layoutY="404.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/router.png"/>
+            </image>
+        </ImageView>
+        <Line endX="185.0" endY="-1.0" layoutX="389.0" layoutY="156.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"
+              startX="-160.0" startY="0.0" strokeWidth="3.0"/>
+        <Line endX="74.0" endY="234.0" layoutX="281.0" layoutY="185.0" scaleX="1.0" scaleZ="1.0" startX="-100.0"
+              strokeWidth="3.0"/>
+        <Line endX="117.0" endY="-130.0" layoutX="503.0" layoutY="317.0" startX="-59.0" startY="103.0"
+              strokeWidth="3.0"/>
+        <ImageView fitHeight="64.83332824707031" fitWidth="88.91428183992333" layoutX="50.0" layoutY="75.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/computer.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="64.83332824707031" fitWidth="88.91428183992333" layoutX="650.0" layoutY="75.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/computer.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="64.83332824707031" fitWidth="88.91428183992333" layoutX="353.0" layoutY="470.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/computer.png"/>
+            </image>
+        </ImageView>
+        <Button fx:id="startAnimationButton" layoutX="22.0" layoutY="557.0" mnemonicParsing="false"
+                onAction="#handleStartAnimation" text="start animation"/>
+        <ImageView fx:id="packetImageView_SwitchA" fitHeight="45.29849023738291" fitWidth="63.914306640625"
+                   layoutX="64.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_LINKAB_1" fitHeight="56.87867736816406" fitWidth="80.25347475537217"
+                   layoutX="233.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_LINKAB_2" fitHeight="63.01693554316051" fitWidth="88.914306640625"
+                   layoutX="364.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_LINKAB_3" fitHeight="63.016852514650964" fitWidth="88.91418843292291"
+                   layoutX="481.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_SwitchB" fitHeight="63.01686668263879" fitWidth="88.9142074584961"
+                   layoutX="675.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView id="packetImageView_LINKAC_1" fx:id="packetImageView_LINKBC_1" fitHeight="63.01685032671212"
+                   fitWidth="88.9141845703125" layoutX="548.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_LINKBC_2" fitHeight="63.01686096191406" fitWidth="88.91419938678875"
+                   layoutX="495.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_LINKBC_3" fitHeight="56.87866973876953" fitWidth="80.25346493470256"
+                   layoutX="436.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_SwitchC" fitHeight="54.75" fitWidth="73.0" layoutX="436.0" layoutY="477.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_LINKAC_3" fitHeight="63.0168497195933" fitWidth="88.9141845703125"
+                   layoutX="284.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_LINKAC_2" fitHeight="70.36892001778405" fitWidth="99.28765869140625"
+                   layoutX="214.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="packetImageView_LINKAC_1" fitHeight="59.53397901130445" fitWidth="84.0" layoutX="154.0"
+                   layoutY="196.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/paket.png"/>
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

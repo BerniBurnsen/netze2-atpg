@@ -1,11 +1,14 @@
+package netze2gui;
+
+import netze2gui.viewsandcontroller.MainController;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Map;
 
 /**
  * Created by Joncn on 15.06.2015.
- *
+ * <p>
  * Receives packets and sends them to the next switch/terminal independed from the rules
  */
 public class Switch extends Thread
@@ -34,10 +37,11 @@ public class Switch extends Thread
                 new Thread(new Runnable()
                 {
                     Socket sock = clientSocket;
+
                     @Override
                     public void run()
                     {
-                        try(ObjectInputStream ois = new ObjectInputStream(
+                        try (ObjectInputStream ois = new ObjectInputStream(
                                 clientSocket.getInputStream())
                         )
                         {
@@ -46,6 +50,7 @@ public class Switch extends Thread
 
                             //Receive TestPacket
                             TestPacket tp = (TestPacket) ois.readObject();
+                            setPacketVisible();
                             System.out.println(name + " (" + port + ") received " + tp);
                             dest = tp.getDestination();
 
@@ -81,6 +86,7 @@ public class Switch extends Thread
                                     sleep(1000);
                                     oos.writeObject(tp);
                                     oos.flush();
+                                    setPacketInvisible();
                                     //System.out.println(name + " sending " + tp);
                                 } catch (Exception e)
                                 {
@@ -95,11 +101,43 @@ public class Switch extends Thread
                     }
                 }).start();
             }
-            while(true);
+            while (true);
         } catch (Exception e)
         {
             System.out.println("ERROR");
             e.printStackTrace();
+        }
+    }
+
+    private void setPacketVisible()
+    {
+        switch (name)
+        {
+            case Config.Switch_A:
+                Main.mainWindow.packetSwitch_A_Visible();
+                break;
+            case Config.Switch_B:
+                Main.mainWindow.packetSwitch_B_Visible();
+                break;
+            case Config.Switch_C:
+                Main.mainWindow.packetSwitch_C_Visible();
+                break;
+        }
+    }
+
+    private void setPacketInvisible()
+    {
+        switch (name)
+        {
+            case Config.Switch_A:
+                Main.mainWindow.packetSwitch_A_Inisible();
+                break;
+            case Config.Switch_B:
+                Main.mainWindow.packetSwitch_B_Inisible();
+                break;
+            case Config.Switch_C:
+                Main.mainWindow.packetSwitch_C_Inisible();
+                break;
         }
     }
 

@@ -1,6 +1,6 @@
-import java.util.ArrayList;
+package netze2gui;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -8,20 +8,20 @@ import java.util.Map;
  */
 public class Config
 {
-/*    public static String Switch_A = "Switch A";
-    public static String Switch_B = "Switch B";
-    public static String Switch_C = "Switch C";
-    public static String Switch_D = "Switch D";
+/*    public static String Switch_A = "netze2gui.Switch A";
+    public static String Switch_B = "netze2gui.Switch B";
+    public static String Switch_C = "netze2gui.Switch C";
+    public static String Switch_D = "netze2gui.Switch D";
 
     public static String Terminal_A = "Terminal A";
     public static String Terminal_B = "Terminal B";
     public static String Terminal_C = "Terminal C";
     public static String Terminal_D = "Terminal D";
 
-    public static String Link_AB = "Link AB";
-    public static String Link_AC = "Link AC";
-    public static String Link_BD = "Link BD";
-    public static String Link_CD = "Link CD";
+    public static String Link_AB = "netze2gui.Link AB";
+    public static String Link_AC = "netze2gui.Link AC";
+    public static String Link_BD = "netze2gui.Link BD";
+    public static String Link_CD = "netze2gui.Link CD";
 
     public static int Terminal_A_port = 10001;
     public static int Terminal_B_port = 10002;
@@ -55,32 +55,32 @@ public class Config
         ports.put(Link_CD, Link_CD_port);
     }
 
-    public static Rule[] Switch_A_rules = {
-            new Rule("A:r1", Terminal_A, Terminal_A, true),
-            new Rule("A:r2", Terminal_B, Link_AB, true),
-            new Rule("A:r3", Terminal_C, Link_AC, true),
-            new Rule("A:r4", Terminal_D, Link_AB, true)
+    public static netze2gui.Rule[] Switch_A_rules = {
+            new netze2gui.Rule("A:r1", Terminal_A, Terminal_A, true),
+            new netze2gui.Rule("A:r2", Terminal_B, Link_AB, true),
+            new netze2gui.Rule("A:r3", Terminal_C, Link_AC, true),
+            new netze2gui.Rule("A:r4", Terminal_D, Link_AB, true)
     };
-    public static Rule[] Switch_B_rules = {
-            new Rule("B:r1", Terminal_A, Link_AB, true),
-            new Rule("B:r2", Terminal_B, Terminal_B, false),
-            new Rule("B:r3", Terminal_C, Link_AB, true),
-            new Rule("B:r4", Terminal_D, Link_BD, true)
+    public static netze2gui.Rule[] Switch_B_rules = {
+            new netze2gui.Rule("B:r1", Terminal_A, Link_AB, true),
+            new netze2gui.Rule("B:r2", Terminal_B, Terminal_B, false),
+            new netze2gui.Rule("B:r3", Terminal_C, Link_AB, true),
+            new netze2gui.Rule("B:r4", Terminal_D, Link_BD, true)
     };
-    public static Rule[] Switch_C_rules = {
-        new Rule("C:r1", Terminal_A, Link_AC, true),
-        new Rule("C:r2", Terminal_B, Link_AC, true),
-        new Rule("C:r3", Terminal_C, Terminal_C, true),
-        new Rule("C:r4", Terminal_D, Link_CD, true)
+    public static netze2gui.Rule[] Switch_C_rules = {
+        new netze2gui.Rule("C:r1", Terminal_A, Link_AC, true),
+        new netze2gui.Rule("C:r2", Terminal_B, Link_AC, true),
+        new netze2gui.Rule("C:r3", Terminal_C, Terminal_C, true),
+        new netze2gui.Rule("C:r4", Terminal_D, Link_CD, true)
     };
-    public static Rule[] Switch_D_rules = {
-            new Rule("D:r1", Terminal_A, Link_CD, true),
-            new Rule("D:r2", Terminal_B, Link_BD, true),
-            new Rule("D:r3", Terminal_C, Link_CD, true),
-            new Rule("D:r4", Terminal_D, Terminal_D, true)
+    public static netze2gui.Rule[] Switch_D_rules = {
+            new netze2gui.Rule("D:r1", Terminal_A, Link_CD, true),
+            new netze2gui.Rule("D:r2", Terminal_B, Link_BD, true),
+            new netze2gui.Rule("D:r3", Terminal_C, Link_CD, true),
+            new netze2gui.Rule("D:r4", Terminal_D, Terminal_D, true)
     };
 
-    public static Map<String, Rule[]> rules = new HashMap<>();
+    public static Map<String, netze2gui.Rule[]> rules = new HashMap<>();
     static
     {
         rules.put(Switch_A, Switch_A_rules);
@@ -89,22 +89,22 @@ public class Config
         rules.put(Switch_D, Switch_D_rules);
     }
 
-    public static TestPacket[] neededPackets = {
-            new TestPacket("p1", Switch_A, Terminal_B, "A:r2", "Link_AB", "B:r2"),
-            new TestPacket("p2", Switch_A, Terminal_C, "A:r3", "Link_AC", "C:r3"),
-            new TestPacket("p3", Switch_A, Terminal_D, "A:r4", "Link_AB", "B:r4", "Link_BD", "D:r4"),
-            new TestPacket("p4", Switch_B, Terminal_A, "B:r1", "Link_AB", "A:r1"),
-            new TestPacket("p5", Switch_B, Terminal_C, "B:r3", "Link_AB", "A:r3", "Link_AC", "C:r3"),
-            new TestPacket("p7", Switch_C, Terminal_A, "C:r1", "Link_AC", "A:r1"),
-            new TestPacket("p8", Switch_C, Terminal_B, "C:r2", "Link_AC", "A:r2", "Link_AB", "B:r2"),
-            new TestPacket("p9", Switch_C, Terminal_D, "C:r4", "Link_CD", "D:r4"),
-            new TestPacket("p10", Switch_D, Terminal_A, "D:r1", "Link_CD", "C:r1", "Link_AC", "A:r1"),
-            new TestPacket("p11", Switch_D, Terminal_B, "D:r2", "Link_BD", "B:r2"),
-            new TestPacket("p12", Switch_D, Terminal_C, "D:r3", "Link_CD", "C:r3")
+    public static netze2gui.TestPacket[] neededPackets = {
+            new netze2gui.TestPacket("p1", Switch_A, Terminal_B, "A:r2", "Link_AB", "B:r2"),
+            new netze2gui.TestPacket("p2", Switch_A, Terminal_C, "A:r3", "Link_AC", "C:r3"),
+            new netze2gui.TestPacket("p3", Switch_A, Terminal_D, "A:r4", "Link_AB", "B:r4", "Link_BD", "D:r4"),
+            new netze2gui.TestPacket("p4", Switch_B, Terminal_A, "B:r1", "Link_AB", "A:r1"),
+            new netze2gui.TestPacket("p5", Switch_B, Terminal_C, "B:r3", "Link_AB", "A:r3", "Link_AC", "C:r3"),
+            new netze2gui.TestPacket("p7", Switch_C, Terminal_A, "C:r1", "Link_AC", "A:r1"),
+            new netze2gui.TestPacket("p8", Switch_C, Terminal_B, "C:r2", "Link_AC", "A:r2", "Link_AB", "B:r2"),
+            new netze2gui.TestPacket("p9", Switch_C, Terminal_D, "C:r4", "Link_CD", "D:r4"),
+            new netze2gui.TestPacket("p10", Switch_D, Terminal_A, "D:r1", "Link_CD", "C:r1", "Link_AC", "A:r1"),
+            new netze2gui.TestPacket("p11", Switch_D, Terminal_B, "D:r2", "Link_BD", "B:r2"),
+            new netze2gui.TestPacket("p12", Switch_D, Terminal_C, "D:r3", "Link_CD", "C:r3")
     };
 
-    public static TestPacket[] reservedPackets = {
-            new TestPacket("p6", Switch_B, Terminal_D, "B:r4", "Link_BD", "D:r4"),
+    public static netze2gui.TestPacket[] reservedPackets = {
+            new netze2gui.TestPacket("p6", Switch_B, Terminal_D, "B:r4", "Link_BD", "D:r4"),
     };
 
     public static String[] allRules = {
@@ -115,17 +115,17 @@ public class Config
             Link_AB, Link_AC, Link_BD, Link_CD
     };*/
 
-    public static final String Switch_A = "Switch A";
-    public static final String Switch_B = "Switch B";
-    public static final String Switch_C = "Switch C";
+    public static final String Switch_A = "netze2gui.Switch A";
+    public static final String Switch_B = "netze2gui.Switch B";
+    public static final String Switch_C = "netze2gui.Switch C";
 
     public static final String Terminal_A = "Terminal A";
     public static final String Terminal_B = "Terminal B";
     public static final String Terminal_C = "Terminal C";
 
-    public static final String Link_AB = "Link AB";
-    public static final String Link_AC = "Link AC";
-    public static final String Link_BC = "Link BC";
+    public static final String Link_AB = "netze2gui.Link AB";
+    public static final String Link_AC = "netze2gui.Link AC";
+    public static final String Link_BC = "netze2gui.Link BC";
 
     public static final int Terminal_A_port = 10001;
     public static final int Terminal_B_port = 10002;
@@ -140,6 +140,7 @@ public class Config
     public static final int Link_BC_port = 10011;
 
     public static final Map<String, Integer> ports = new HashMap<>();
+
     static
     {
         ports.put(Terminal_A, Terminal_A_port);
@@ -169,6 +170,7 @@ public class Config
     };
 
     public static final Map<String, Rule[]> rules = new HashMap<>();
+
     static
     {
         rules.put(Switch_A, Switch_A_rules);
@@ -182,10 +184,11 @@ public class Config
             new TestPacket("p3", Switch_B, Terminal_A, "B:r1", Link_AB, "A:r1"),
             new TestPacket("p4", Switch_B, Terminal_C, "B:r3", Link_BC, "C:r2"),
             new TestPacket("p5", Switch_C, Terminal_A, "C:r1", Link_AC, "A:r1"),
+            new TestPacket("p6", Switch_C, Terminal_B, "C:r1", Link_BC, "B:r2"),
     };
 
     public static final TestPacket[] reservedPackets = {
-            new TestPacket("p6", Switch_C, Terminal_B, "C:r1", Link_BC, "B:r2"),
+
     };
 
     public static final String[] allRules = {

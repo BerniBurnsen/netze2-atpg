@@ -1,3 +1,5 @@
+package netze2gui;
+
 import java.io.Serializable;
 
 /**
@@ -44,7 +46,10 @@ public class TestPacket implements Serializable
         return lastHop;
     }
 
-    public String getName() { return name;}
+    public String getName()
+    {
+        return name;
+    }
 
     public void setRuleHistory(String[] ruleHistory)
     {
@@ -74,9 +79,9 @@ public class TestPacket implements Serializable
     @Override
     public boolean equals(Object o)
     {
-        if(o != null)
+        if (o != null)
         {
-            if(o instanceof TestPacket)
+            if (o instanceof TestPacket)
             {
                 TestPacket tp = (TestPacket) o;
                 return tp.getName().equals(this.name);

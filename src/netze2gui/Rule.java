@@ -1,3 +1,5 @@
+package netze2gui;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -14,16 +16,15 @@ public class Rule implements Serializable
 
     public Rule(String name, boolean working, String link, String destination, String... destinations)
     {
-        if(destinations != null && destinations.length > 0)
+        if (destinations != null && destinations.length > 0)
         {
             LinkedList<String> tmp = new LinkedList<>();
             tmp.addFirst(destination);
             tmp.addAll(Arrays.asList(destinations));
             this.destinations = tmp.toArray(destinations);
-        }
-        else
+        } else
         {
-            this.destinations = new String[] {destination};
+            this.destinations = new String[]{destination};
         }
         this.link = link;
         this.name = name;
@@ -43,11 +44,11 @@ public class Rule implements Serializable
     @Override
     public boolean equals(Object rule2)
     {
-        if(rule2 == null)
+        if (rule2 == null)
         {
             return false;
         }
-        if(rule2 instanceof Rule)
+        if (rule2 instanceof Rule)
         {
             Rule rule = (Rule) rule2;
             if (Arrays.equals(this.destinations, rule.destinations) && this.link.equals(rule.getLink()))
@@ -71,6 +72,6 @@ public class Rule implements Serializable
     @Override
     public String toString()
     {
-        return "Rule \"" + name + "\"";
+        return "netze2gui.Rule \"" + name + "\"";
     }
 }
