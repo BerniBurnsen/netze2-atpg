@@ -99,9 +99,8 @@ public class TestTerminal extends Thread
                     }
                     if (timeout)
                     {
-                        Main.mainWindow.packetSwitch_A_Inisible();
-                        Main.mainWindow.packetSwitch_B_Inisible();
-                        Main.mainWindow.packetSwitch_C_Inisible();
+                        setPacketWrong();
+                        sleep(1000);
                     }
                     System.out.println("");
                     System.out.println("----- " + tp + " -----");
@@ -252,6 +251,11 @@ public class TestTerminal extends Thread
             }
         }
         return missingRules;
+    }
+
+    private void setPacketWrong()
+    {
+        Main.mainWindow.changePictureToWrong();
     }
 
     public void releaseSendMutex()

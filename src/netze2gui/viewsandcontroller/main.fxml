@@ -62,67 +62,66 @@
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_LINKAB_1" fitHeight="56.87867736816406" fitWidth="80.25347475537217"
+        <ImageView fx:id="packetImageView_LINKAB_1" fitHeight="45.29849023738291" fitWidth="63.914306640625"
                    layoutX="233.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_LINKAB_2" fitHeight="63.01693554316051" fitWidth="88.914306640625"
+        <ImageView fx:id="packetImageView_LINKAB_2" fitHeight="45.29849023738291" fitWidth="63.914306640625"
                    layoutX="364.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_LINKAB_3" fitHeight="63.016852514650964" fitWidth="88.91418843292291"
+        <ImageView fx:id="packetImageView_LINKAB_3" fitHeight="45.29849023738291" fitWidth="63.914306640625"
                    layoutX="481.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_SwitchB" fitHeight="63.01686668263879" fitWidth="88.9142074584961"
+        <ImageView fx:id="packetImageView_SwitchB" fitHeight="45.29849023738291" fitWidth="63.914306640625"
                    layoutX="675.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView id="packetImageView_LINKAC_1" fx:id="packetImageView_LINKBC_1" fitHeight="63.01685032671212"
-                   fitWidth="88.9141845703125" layoutX="548.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="packetImageView_LINKAC_1" fx:id="packetImageView_LINKBC_1" fitHeight="45.29849023738291" fitWidth="63.914306640625" layoutX="548.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_LINKBC_2" fitHeight="63.01686096191406" fitWidth="88.91419938678875"
+        <ImageView fx:id="packetImageView_LINKBC_2" fitHeight="45.29849023738291" fitWidth="63.914306640625"
                    layoutX="495.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_LINKBC_3" fitHeight="56.87866973876953" fitWidth="80.25346493470256"
+        <ImageView fx:id="packetImageView_LINKBC_3" fitHeight="45.29849023738291" fitWidth="63.914306640625"
                    layoutX="436.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_SwitchC" fitHeight="54.75" fitWidth="73.0" layoutX="436.0" layoutY="477.0"
+        <ImageView fx:id="packetImageView_SwitchC" fitHeight="45.29849023738291" fitWidth="63.914306640625" layoutX="436.0" layoutY="477.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_LINKAC_3" fitHeight="63.0168497195933" fitWidth="88.9141845703125"
+        <ImageView fx:id="packetImageView_LINKAC_3" fitHeight="45.29849023738291" fitWidth="63.914306640625"
                    layoutX="284.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_LINKAC_2" fitHeight="70.36892001778405" fitWidth="99.28765869140625"
+        <ImageView fx:id="packetImageView_LINKAC_2" fitHeight="45.29849023738291" fitWidth="63.914306640625"
                    layoutX="214.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>
             </image>
         </ImageView>
-        <ImageView fx:id="packetImageView_LINKAC_1" fitHeight="59.53397901130445" fitWidth="84.0" layoutX="154.0"
+        <ImageView fx:id="packetImageView_LINKAC_1" fitHeight="45.29849023738291" fitWidth="63.914306640625" layoutX="154.0"
                    layoutY="196.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../resources/paket.png"/>

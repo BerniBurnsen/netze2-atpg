@@ -161,7 +161,7 @@ public class Config
     };
     public static final Rule[] Switch_B_rules = {
             new Rule("B:r1", true, Link_AB, Terminal_A),
-            new Rule("B:r2", true, Terminal_B, Terminal_B),
+            new Rule("B:r2", false, Terminal_B, Terminal_B),
             new Rule("B:r3", true, Link_BC, Terminal_C)
     };
     public static final Rule[] Switch_C_rules = {

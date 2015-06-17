@@ -6,9 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import netze2gui.TestTerminal;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -186,6 +186,49 @@ public class MainController implements Initializable
     public void packetSwitch_C_Inisible()
     {
         animateImageInvisible(packetImageView_SwitchC);
+    }
+
+    public void changePictureToWrong()
+    {
+        ImageView tmpiv = null;
+        for(ImageView imageView : packetImageViews)
+        {
+            if(imageView.getOpacity() == 1.0)
+            {
+                tmpiv = imageView;
+            }
+        }
+        System.out.println(tmpiv);
+
+        final ImageView iv = tmpiv;
+        Task task = new Task<Void>()
+        {
+            @Override
+            public Void call() throws Exception
+            {
+                Platform.runLater(() ->
+                {
+                    Image oldImage = iv.getImage();
+                    Platform.runLater(() -> iv.setOpacity(0.0));
+                    Platform.runLater(() -> iv.setImage(new Image("/netze2gui/resources/paket_wrong.png")));
+                    Platform.runLater(() -> iv.setOpacity(1.0));
+                    try
+                    {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    Platform.runLater(() -> iv.setOpacity(0.0));
+                    Platform.runLater(() -> iv.setImage(oldImage));
+
+                });
+                return null;
+            }
+        };
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
 
     private void animateImageVisible(ImageView iv)
