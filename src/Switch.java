@@ -1,7 +1,4 @@
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
@@ -24,92 +21,86 @@ public class Switch extends Thread
         this.links = links;
         this.port = port;
         this.rules = rules;
-        System.out.println(name + " " + rules.length);
-        System.out.println(name + " " + links.length);
     }
 
     @Override
     public void run()
     {
-        new Thread(new Runnable()
+        try (ServerSocket serverSocket = new ServerSocket(port))
         {
-            @Override
-            public void run()
+            do
             {
-                try (ServerSocket serverSocket = new ServerSocket(port))
+                final Socket clientSocket = serverSocket.accept();
+                new Thread(new Runnable()
                 {
-                    do
+                    Socket sock = clientSocket;
+                    @Override
+                    public void run()
                     {
-                        try(Socket clientSocket = serverSocket.accept();
-                            ObjectInputStream ois = new ObjectInputStream(
-                                new BufferedInputStream(
-                                        clientSocket.getInputStream()))
+                        try(ObjectInputStream ois = new ObjectInputStream(
+                                clientSocket.getInputStream())
                         )
                         {
+                            String dest;
+                            int portToSend = 0;
+
                             //Receive TestPacket
                             TestPacket tp = (TestPacket) ois.readObject();
-                            System.out.println(name + " received " + tp);
-                            String dest = tp.getDestination();
+                            System.out.println(name + " (" + port + ") received " + tp);
+                            dest = tp.getDestination();
 
-                            int tmpPort = 0;
                             ruleFinding:
-                            for(Rule r : rules)
+                            for (Rule r : rules)
                             {
-                                for(String s : r.getDestinations())
+                                for (String s : r.getDestinations())
                                 {
-                                    if(s.equals(dest))
+                                    if (s.equals(dest))
                                     {
-                                        tmpPort = Config.ports.get(r.getLink());
-                                        if(!r.isWorking())
+                                        portToSend = Config.ports.get(r.getLink());
+                                        if (!r.isWorking())
                                         {
-                                            tmpPort = -1;
-                                        }
-                                        else
+                                            portToSend = -1;
+                                        } else
                                         {
-                                            System.out.println(name + " sending " + tp + " to " + r.getLink());
+                                            System.out.println(name + " sending " + tp + " to " + r.getLink() + " (" + portToSend + ")");
                                         }
                                         break ruleFinding;
                                     }
                                 }
                             }
 
-                            final int portToSend = tmpPort;
-                            if(tmpPort != -1)
+                            if (portToSend != -1)
                             {
-                                new Thread(new Runnable()
+                                //Send TestPacket to next Switch
+                                try (Socket socket = new Socket("localhost", portToSend);
+                                     ObjectOutputStream oos = new ObjectOutputStream(
+                                             socket.getOutputStream())
+                                )
                                 {
-                                    @Override
-                                    public void run()
-                                    {
-                                        //Send TestPacket to next Switch
-                                        try (Socket socket = new Socket("localhost", portToSend);
-                                             ObjectOutputStream oos = new ObjectOutputStream(
-                                                     new BufferedOutputStream(socket.getOutputStream()))
-                                        )
-                                        {
-                                            tp.setLastHop(name);
-                                            sleep(1000);
-                                            oos.writeObject(tp);
-                                            oos.flush();
-                                            //System.out.println(name + " sending " + tp);
-                                        } catch (Exception e)
-                                        {
-                                            System.out.println("ERROR by writing " + tp);
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).start();
+                                    tp.setLastHop(name);
+                                    sleep(1000);
+                                    oos.writeObject(tp);
+                                    oos.flush();
+                                    //System.out.println(name + " sending " + tp);
+                                } catch (Exception e)
+                                {
+                                    System.out.println("ERROR by writing " + tp);
+                                    e.printStackTrace();
+                                }
                             }
+                        } catch (Exception e)
+                        {
+                            e.printStackTrace();
                         }
                     }
-                    while(true);
-                } catch (Exception e)
-                {
-                    System.out.println("ERROR");
-                    e.printStackTrace();
-                }
+                }).start();
             }
-        }).start();
+            while(true);
+        } catch (Exception e)
+        {
+            System.out.println("ERROR");
+            e.printStackTrace();
+        }
     }
 
     @Override

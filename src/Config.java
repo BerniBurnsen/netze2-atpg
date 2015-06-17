@@ -133,7 +133,7 @@ public class Config
 
     public static final int Switch_A_port = 10005;
     public static final int Switch_B_port = 10006;
-    public static final int Switch_C_port = 10007;
+    public static final int Switch_C_port = 10008;
 
     public static final int Link_AB_port = 10009;
     public static final int Link_AC_port = 10010;
@@ -177,15 +177,15 @@ public class Config
     }
 
     public static final TestPacket[] neededPackets = {
-            new TestPacket("p1", Switch_A, Terminal_B, "A:r2", "Link_AB", "B:r2"),
-            new TestPacket("p2", Switch_A, Terminal_C, "A:r3", "Link_AC", "C:r2"),
-            new TestPacket("p3", Switch_B, Terminal_A, "B:r1", "Link_AB", "A:r1"),
-            new TestPacket("p4", Switch_B, Terminal_C, "B:r3", "Link_BC", "C:r2"),
-            new TestPacket("p5", Switch_C, Terminal_A, "C:r1", "Link_AC", "A:r1"),
+            new TestPacket("p1", Switch_A, Terminal_B, "A:r2", Link_AB, "B:r2"),
+            new TestPacket("p2", Switch_A, Terminal_C, "A:r3", Link_AC, "C:r2"),
+            new TestPacket("p3", Switch_B, Terminal_A, "B:r1", Link_AB, "A:r1"),
+            new TestPacket("p4", Switch_B, Terminal_C, "B:r3", Link_BC, "C:r2"),
+            new TestPacket("p5", Switch_C, Terminal_A, "C:r1", Link_AC, "A:r1"),
     };
 
     public static final TestPacket[] reservedPackets = {
-            new TestPacket("p6", Switch_C, Terminal_B, "C:r1", "Link_BC", "B:r2"),
+            new TestPacket("p6", Switch_C, Terminal_B, "C:r1", Link_BC, "B:r2"),
     };
 
     public static final String[] allRules = {

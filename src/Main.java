@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Main
 {
     public static void main(String[] args)
@@ -17,23 +19,51 @@ public class Main
         tt.start();
         System.out.println("TestTerminal started!");*/
 
-        new Link(Config.Link_AB, Config.ports.get(Config.Link_AB),Config.Switch_A, Config.Switch_B, true).start();
-        new Link(Config.Link_AC, Config.ports.get(Config.Link_AC),Config.Switch_A, Config.Switch_C, true).start();
-        new Link(Config.Link_BC, Config.ports.get(Config.Link_BC),Config.Switch_B, Config.Switch_C, true).start();
+        new Link(Config.Link_AB, Config.ports.get(Config.Link_AB), Config.Switch_A, Config.Switch_B, true).start();
+        new Link(Config.Link_AC, Config.ports.get(Config.Link_AC), Config.Switch_A, Config.Switch_C, true).start();
+        new Link(Config.Link_BC, Config.ports.get(Config.Link_BC), Config.Switch_B, Config.Switch_C, true).start();
 
         new Switch(Config.Switch_A, Config.ports.get(Config.Switch_A), Config.rules.get(Config.Switch_A), Config.Link_AB, Config.Link_AC).start();
         new Switch(Config.Switch_B, Config.ports.get(Config.Switch_B), Config.rules.get(Config.Switch_B), Config.Link_AB, Config.Link_BC).start();
-        new Switch(Config.Switch_C, Config.ports.get(Config.Switch_C), Config.rules.get(Config.Switch_C), Config.Link_AC, Config.Link_BC).start();
+        new Switch(Config.Switch_C, Config.ports.get(Config.Switch_C), Config.rules.get(Config.Switch_C), Config.Link_BC, Config.Link_AC).start();
         System.out.println("Switches started!");
 
         TestTerminal tt = new TestTerminal(Config.Terminal_A_port, Config.Terminal_B_port, Config.Terminal_C_port);
         tt.start();
         System.out.println("TestTerminal started!");
 
+        boolean run = true;
+        try
+        {
+            tt.acquireSendMutex();
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
 
-      /*  while(true)
-        {*/
-            tt.setSend(true);
-/*        }*/
+        while(run)
+        {
+            try
+            {
+                tt.acquireReadMutex();
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            System.out.println("Type start or end:");
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            switch(input.toLowerCase())
+            {
+                case "start":
+                    System.out.println("Starting");
+                    tt.releaseSendMutex();
+                    break;
+                case "end":
+                    System.out.println("Ending");
+                    run = false;
+            }
+        }
+        System.exit(0);
     }
 }

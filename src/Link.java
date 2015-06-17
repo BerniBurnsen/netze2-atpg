@@ -28,72 +28,74 @@ public class Link extends Thread
     @Override
     public void run()
     {
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
+            try (final ServerSocket serverSocket = new ServerSocket(port))
             {
-                try (ServerSocket serverSocket = new ServerSocket(port))
+                do
                 {
-                    do
+                    final Socket clientSocket = serverSocket.accept();
+                    new Thread(new Runnable()
                     {
-                        try (Socket clientSocket = serverSocket.accept();
-                             ObjectInputStream ois = new ObjectInputStream(
-                                     new BufferedInputStream(
-                                             clientSocket.getInputStream()))
-                        )
+                        @Override
+                        public void run()
                         {
-                            //Receive TestPacket
-                            TestPacket tp = (TestPacket) ois.readObject();
+                            try (ObjectInputStream ois = new ObjectInputStream(
+                                    clientSocket.getInputStream())
+                            )
+                            {
+                                //Receive TestPacket
+                                TestPacket tp = (TestPacket) ois.readObject();
 
-                            System.out.println(name + " received " + tp);
-                            int portToSend = 0;
-                            if (tp.getLastHop().equals(left))
-                            {
-                                portToSend = Config.ports.get(right);
-                                System.out.println(name + " sending " + tp + " to " + right);
-                            } else
-                            {
-                                portToSend = Config.ports.get(left);
-                                System.out.println(name + " sending " + tp + " to " + left);
-                            }
-
-                            final int tmpPort = portToSend;
-                            if(working)
-                            {
-                                new Thread(new Runnable()
+                                System.out.println(name + " received " + tp);
+                                int portToSend;
+                                if (tp.getLastHop().equals(left))
                                 {
-                                    @Override
-                                    public void run()
+                                    portToSend = Config.ports.get(right);
+                                    System.out.println(name + " sending " + tp + " to " + right + " (" + portToSend + ")");
+                                } else
+                                {
+                                    portToSend = Config.ports.get(left);
+                                    System.out.println(name + " sending " + tp + " to " + left + " (" + portToSend + ")");
+                                }
+
+                                final int tmpPort = portToSend;
+                                if(working)
+                                {
+                                    new Thread(new Runnable()
                                     {
-                                        //Send TestPacket to next Switch
-                                        try (Socket socket = new Socket("localhost", tmpPort);
-                                             ObjectOutputStream oos = new ObjectOutputStream(
-                                                     new BufferedOutputStream(socket.getOutputStream()))
-                                        )
+                                        @Override
+                                        public void run()
                                         {
-                                            sleep(1000);
-                                            oos.writeObject(tp);
-                                            oos.flush();
-                                            //System.out.println(getNameOfLink() + " sending " + tp);
-                                        } catch (Exception e)
-                                        {
-                                            System.out.println("ERROR by writing " + tp);
-                                            e.printStackTrace();
+                                            //Send TestPacket to next Switch
+                                            try (Socket socket = new Socket("localhost", tmpPort);
+                                                 ObjectOutputStream oos = new ObjectOutputStream(
+                                                         socket.getOutputStream())
+                                            )
+                                            {
+                                                sleep(1000);
+                                                oos.writeObject(tp);
+                                                oos.flush();
+                                                System.out.println(name + " sended " + tp + " to " + tmpPort );
+                                            } catch (Exception e)
+                                            {
+                                                System.out.println("ERROR by writing " + tp);
+                                                e.printStackTrace();
+                                            }
                                         }
-                                    }
-                                }).start();
+                                    }).start();
+                                }
+                            } catch (Exception e)
+                            {
+                                e.printStackTrace();
                             }
                         }
-                    }
-                    while (true);
-                } catch (Exception e)
-                {
-                    System.out.println("ERROR");
-                    e.printStackTrace();
+                    }).start();
                 }
+                while (true);
+            } catch (Exception e)
+            {
+                System.out.println("ERROR");
+                e.printStackTrace();
             }
-        }).start();
     }
 
     public String getNameOfLink()
