@@ -7,6 +7,9 @@ import java.net.Socket;
 
 /**
  * Created by Joncn on 16.06.2015.
+ * This Class is depicting a link, like a cable.
+ * It listens on a port and decides based on where the packet came from, where it has to forward the testpacket
+ * the link can be broken. in this case the packet is lost.
  */
 public class Link extends Thread
 {
@@ -33,6 +36,10 @@ public class Link extends Thread
             do
             {
                 final Socket clientSocket = serverSocket.accept();
+                /*
+                sub thread to handle the incoming packet.
+                this thread does the "dirty" work.
+                 */
                 new Thread(new Runnable()
                 {
                     @Override
@@ -47,21 +54,28 @@ public class Link extends Thread
 
                             System.out.println(name + " received " + tp);
                             int portToSend;
+                            /*
+                            decision where to forward the next packet.
+                             */
                             if (tp.getLastHop().equals(left))
                             {
                                 portToSend = Config.ports.get(right);
                                 System.out.println(name + " sending " + tp + " to " + right + " (" + portToSend + ")");
                                 startAnimation(true);
-                            } else
+                            }
+                            else
                             {
                                 portToSend = Config.ports.get(left);
                                 System.out.println(name + " sending " + tp + " to " + left + " (" + portToSend + ")");
                                 startAnimation(false);
                             }
 
-                            final int tmpPort = portToSend;
+                            final int tmpPort = portToSend; //Port of the target switch
                             if (working)
                             {
+                                /*
+                                sub-sub Thread to forward the packet, in case the link is working.
+                                 */
                                 new Thread(new Runnable()
                                 {
                                     @Override
@@ -79,12 +93,17 @@ public class Link extends Thread
                                             System.out.println(name + " sended " + tp + " to " + tmpPort);
                                         } catch (Exception e)
                                         {
-                                            System.out.println("ERROR by writing " + tp);
+                                            System.err.println("ERROR by writing " + tp);
                                             e.printStackTrace();
                                         }
                                     }
                                 }).start();
                             }
+                            else
+                            {
+                                System.err.println(name + " Link not working!");
+                            }
+
                         } catch (Exception e)
                         {
                             e.printStackTrace();
@@ -95,33 +114,77 @@ public class Link extends Thread
             while (true);
         } catch (Exception e)
         {
-            System.out.println("ERROR");
+            System.err.println("ERROR");
             e.printStackTrace();
         }
     }
 
+    /*
+        animates the send process of the packet
+        in both cases, failure and success.
+     */
     private void startAnimation(boolean forward)
     {
-        switch (name)
+        if(working)
         {
-            case Config.Link_AB:
-                if (forward)
-                    Main.mainWindow.animateLinkABForward();
-                else
-                    Main.mainWindow.animateLinkABBackward();
-                break;
-            case Config.Link_AC:
-                if (forward)
-                    Main.mainWindow.animateLinkACForward();
-                else
-                    Main.mainWindow.animateLinkACBackward();
-                break;
-            case Config.Link_BC:
-                if (forward)
-                    Main.mainWindow.animateLinkBCForward();
-                else
-                    Main.mainWindow.animateLinkBCBackward();
-                break;
+            //normal animation
+            switch (name)
+            {
+                case Config.Link_AB:
+                    if (forward)
+                        Main.mainWindow.animateLinkABForward();
+                    else
+                        Main.mainWindow.animateLinkABBackward();
+                    break;
+                case Config.Link_AC:
+                    if (forward)
+                        Main.mainWindow.animateLinkACForward();
+                    else
+                        Main.mainWindow.animateLinkACBackward();
+                    break;
+                case Config.Link_BC:
+                    if (forward)
+                        Main.mainWindow.animateLinkBCForward();
+                    else
+                        Main.mainWindow.animateLinkBCBackward();
+                    break;
+            }
+        }
+        else
+        {
+            //failure
+            switch(name)
+            {
+                case Config.Link_AB:
+                    Main.mainWindow.packetLinkAB_Error_Visible();
+                    break;
+                case Config.Link_AC:
+                    Main.mainWindow.packetLinkAC_Error_Visible();
+                    break;
+                case Config.Link_BC:
+                    Main.mainWindow.packetLinkBC_ERROR_Visible();
+                    break;
+            }
+
+            try
+            {
+                sleep(1000);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            switch(name)
+            {
+                case Config.Link_AB:
+                    Main.mainWindow.packetLinkAB_ERROR_Invisible();
+                    break;
+                case Config.Link_AC:
+                    Main.mainWindow.packetLinkAC_ERROR_Invisible();
+                    break;
+                case Config.Link_BC:
+                    Main.mainWindow.packetLinkBC_ERROR_Invisible();
+                    break;
+            }
         }
     }
 

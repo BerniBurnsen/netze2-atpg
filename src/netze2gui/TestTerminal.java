@@ -33,6 +33,10 @@ public class TestTerminal extends Thread
 
     public void run()
     {
+        /*
+        starting several threads where each thread has a serversocket
+        and is waiting for Testterminals to receive a Testpacket
+         */
         for (int i = 0; i < ports.length; i++)
         {
             final int portIndex = i;
@@ -68,17 +72,21 @@ public class TestTerminal extends Thread
                     }
                 }
             }).start();
-        }
+        } //End Testterminal Server Thread
 
+        /*
+            This loops sends the testpackets to the switches.
+         */
         while (true)
         {
             try
-            {
+            {   //wait for the permission to start sending
                 sendMutex.acquire();
             } catch (InterruptedException e)
             {
                 e.printStackTrace();
             }
+            //clear up
             receivedPackets.clear();
             missingPackets.clear();
             boolean timeout = false;
@@ -89,28 +97,32 @@ public class TestTerminal extends Thread
                              so.getOutputStream())
                 )
                 {
-                    TestPacket tp = Config.neededPackets[i];
+                    TestPacket tp = Config.neededPackets[i]; //current testpacket
+
                     if (mutex.attempt(PACKET_TIMEOUT))
                     {
+
                         timeout = false;
-                    } else
+                    }
+                    else
                     {
                         timeout = true;
                     }
                     if (timeout)
                     {
-                        setPacketWrong();
-                        sleep(1000);
+                        //when a timeout occurred the a switch or link are faulty
+                        setPacketWrong(); //in case a switch rule is faulty, this method will display it.
+                        sleep(1500);
                     }
                     System.out.println("");
                     System.out.println("----- " + tp + " -----");
                     System.out.println(tp.getFirstHop().replaceAll("Switch", "Terminal") + " sending " + tp);
-                    oos.writeObject(Config.neededPackets[i]);
+                    oos.writeObject(tp);
                 } catch (Exception e)
                 {
                     e.printStackTrace();
                 }
-            }
+            }//sending all testpackets done.
             try
             {
                 mutex.attempt(PACKET_TIMEOUT);
@@ -129,6 +141,11 @@ public class TestTerminal extends Thread
             {
                 e.printStackTrace();
             }
+            /*
+                check if all received packets are the needed Packets as well.
+                If not, at least one Packet got lost.
+                Error!
+             */
             if (receivedPackets.size() != Config.neededPackets.length)
             {
                 findMissingPackets();
@@ -137,11 +154,17 @@ public class TestTerminal extends Thread
                 {
                     missingRules = findMissingRules();
                 }
+
+                /*
+                if there is more than one rule in the list of possible faulty rules start the "ATPG-Algorithm"
+                to pinpoint the faulty rule
+                 */
                 if (missingRules.size() > 1)
                 {
                     findFailure(missingRules);
                     mutex.release();
-                } else
+                }
+                else
                 {
                     System.err.println("");
                     System.err.println("Failure found: " + missingRules);
@@ -156,7 +179,9 @@ public class TestTerminal extends Thread
     {
         receivedPackets.clear();
         mutex.release();
-        //Find failure
+        /*
+        if there are any reserve packets for failure detection/pinpointing, send them.
+         */
         for (int i = 0; i < Config.reservedPackets.length; i++)
         {
             try (Socket so = new Socket("localhost", Config.ports.get(Config.reservedPackets[i].getFirstHop()));
@@ -184,13 +209,19 @@ public class TestTerminal extends Thread
         {
             e.printStackTrace();
         }
+        /*
+            after all reserved packets have been sent, ATPG is trying to pointing the faulty rule.
+         */
         missingRules = removeRules(missingRules);
         if (missingRules.size() > 1)
         {
+            //multiple faulty rules.
+            //ATPG wasn't able to pinpoint the failure count down to 1
             System.err.println("");
             System.err.println("Possible Failures: " + missingRules);
         } else
         {
+            //ATPG found the exact fault. No other possibilities
             System.err.println("");
             System.err.println("Failure found: " + missingRules);
         }
@@ -214,6 +245,7 @@ public class TestTerminal extends Thread
             }
         }
     }
+
 
     private Set<String> findMissingRules()
     {

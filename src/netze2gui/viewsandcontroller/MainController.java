@@ -62,6 +62,20 @@ public class MainController implements Initializable
     ImageView packetImageView_LINKBC_3;
 
     @FXML
+    ImageView packetImageView_SWITCH_A_ERROR;
+    @FXML
+    ImageView packetImageView_SWITCH_B_ERROR;
+    @FXML
+    ImageView packetImageView_SWITCH_C_ERROR;
+
+    @FXML
+    ImageView packetImageView_LINKAB_ERROR;
+    @FXML
+    ImageView packetImageView_LINKAC_ERROR;
+    @FXML
+    ImageView packetImageView_LINKBC_ERROR;
+
+    @FXML
     Button startAnimationButton;
     private TestTerminal tt;
 
@@ -80,7 +94,14 @@ public class MainController implements Initializable
                 packetImageView_LINKBC_3,
                 packetImageView_SwitchA,
                 packetImageView_SwitchB,
-                packetImageView_SwitchC
+                packetImageView_SwitchC,
+                packetImageView_LINKAB_ERROR,
+                packetImageView_LINKAC_ERROR,
+                packetImageView_LINKBC_ERROR,
+                packetImageView_SWITCH_A_ERROR,
+                packetImageView_SWITCH_B_ERROR,
+                packetImageView_SWITCH_C_ERROR,
+
         };
 
         LINK_AB_FORWARD = new ImageView[]{
@@ -158,11 +179,24 @@ public class MainController implements Initializable
         animateLink(LINK_BC_BACKWARD);
     }
 
+    public void packetSwitch_A_Error_Visible() {animateImageVisible(packetImageView_SWITCH_A_ERROR);}
+    public void packetSwitch_B_Error_Visible() {animateImageVisible(packetImageView_SWITCH_B_ERROR);}
+    public void packetSwitch_C_Error_Visible() {animateImageVisible(packetImageView_SWITCH_C_ERROR);}
+    public void packetLinkAB_Error_Visible() {        animateImageVisible(packetImageView_LINKAB_ERROR);}
+    public void packetLinkAC_Error_Visible() {animateImageVisible(packetImageView_LINKAC_ERROR);}
+    public void packetLinkBC_ERROR_Visible() {animateImageVisible(packetImageView_LINKBC_ERROR);}
+
+    public void packetSwitch_A_ERROR_Invisible() {animateImageInvisible(packetImageView_SWITCH_A_ERROR);}
+    public void packetSwitch_B_ERROR_Invisible() {animateImageInvisible(packetImageView_SWITCH_B_ERROR);}
+    public void packetSwitch_C_ERROR_Invisible() {animateImageInvisible(packetImageView_SWITCH_C_ERROR);}
+    public void packetLinkAB_ERROR_Invisible() {animateImageInvisible(packetImageView_LINKAB_ERROR);}
+    public void packetLinkAC_ERROR_Invisible() {animateImageInvisible(packetImageView_LINKAC_ERROR);}
+    public void packetLinkBC_ERROR_Invisible() {animateImageInvisible(packetImageView_SWITCH_A_ERROR);}
+
     public void packetSwitch_A_Visible()
     {
         animateImageVisible(packetImageView_SwitchA);
     }
-
     public void packetSwitch_A_Inisible()
     {
         animateImageInvisible(packetImageView_SwitchA);
@@ -198,7 +232,6 @@ public class MainController implements Initializable
                 tmpiv = imageView;
             }
         }
-        System.out.println(tmpiv);
 
         final ImageView iv = tmpiv;
         Task task = new Task<Void>()
@@ -206,23 +239,45 @@ public class MainController implements Initializable
             @Override
             public Void call() throws Exception
             {
-                Platform.runLater(() ->
-                {
-                    Image oldImage = iv.getImage();
-                    Platform.runLater(() -> iv.setOpacity(0.0));
-                    Platform.runLater(() -> iv.setImage(new Image("/netze2gui/resources/paket_wrong.png")));
-                    Platform.runLater(() -> iv.setOpacity(1.0));
-                    try
-                    {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    Platform.runLater(() -> iv.setOpacity(0.0));
-                    Platform.runLater(() -> iv.setImage(oldImage));
+                Image oldImage = iv.getImage();
+                Platform.runLater(() -> iv.setOpacity(0.0));
+                String imageViewID = iv.toString().substring(iv.toString().indexOf('=')+1,iv.toString().indexOf(']'));
 
-                });
+                switch(imageViewID)
+                {
+                    case "packetImageView_SwitchA":
+                        packetSwitch_A_Error_Visible();
+
+                        break;
+                    case "packetImageView_SwitchB":
+                        packetSwitch_B_Error_Visible();
+                        System.out.println(imageViewID);
+                        break;
+                    case "packetImageView_SwitchC":
+                        packetSwitch_C_Error_Visible();
+                        break;
+                }
+                try
+                {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                switch(imageViewID)
+                {
+                    case "packetImageView_SwitchA":
+                        packetSwitch_A_ERROR_Invisible();
+                        break;
+                    case "packetImageView_SwitchB":
+                        packetSwitch_B_ERROR_Invisible();
+                        break;
+                    case "packetImageView_SwitchC":
+                        packetSwitch_C_ERROR_Invisible();
+                        break;
+                }
+                Platform.runLater(() -> iv.setOpacity(0.0));
+                Platform.runLater(() -> iv.setImage(oldImage));
                 return null;
             }
         };
@@ -230,6 +285,8 @@ public class MainController implements Initializable
         th.setDaemon(true);
         th.start();
     }
+
+
 
     private void animateImageVisible(ImageView iv)
     {
