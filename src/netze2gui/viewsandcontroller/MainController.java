@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 /**
  * Created by B3rni on 17.06.2015.
+ * This is the controller of the ATPG-GUI
  */
 public class MainController implements Initializable
 {
@@ -182,7 +183,7 @@ public class MainController implements Initializable
     public void packetSwitch_A_Error_Visible() {animateImageVisible(packetImageView_SWITCH_A_ERROR);}
     public void packetSwitch_B_Error_Visible() {animateImageVisible(packetImageView_SWITCH_B_ERROR);}
     public void packetSwitch_C_Error_Visible() {animateImageVisible(packetImageView_SWITCH_C_ERROR);}
-    public void packetLinkAB_Error_Visible() {        animateImageVisible(packetImageView_LINKAB_ERROR);}
+    public void packetLinkAB_Error_Visible() {animateImageVisible(packetImageView_LINKAB_ERROR);}
     public void packetLinkAC_Error_Visible() {animateImageVisible(packetImageView_LINKAC_ERROR);}
     public void packetLinkBC_ERROR_Visible() {animateImageVisible(packetImageView_LINKBC_ERROR);}
 
@@ -332,69 +333,6 @@ public class MainController implements Initializable
     private void handleStartAnimation(ActionEvent event)
     {
         tt.releaseSendMutex();
-
-        /*System.out.println("starting animation test");
-
-        Task task = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                animateLinkABForward();
-                try
-                {
-                    Thread.sleep(MILLIS);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                animateLinkABBackward();
-                try
-                {
-                    Thread.sleep(MILLIS);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                animateLinkACForward();
-                try
-                {
-                    Thread.sleep(MILLIS);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                animateLinkACBackward();
-                try
-                {
-                    Thread.sleep(MILLIS);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                animateLinkBCForward();
-                try
-                {
-                    Thread.sleep(MILLIS);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                animateLinkBCBackward();
-                try
-                {
-                    Thread.sleep(MILLIS);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
-
-
-*/
     }
 
     public void setTestTerminal(TestTerminal tt)
