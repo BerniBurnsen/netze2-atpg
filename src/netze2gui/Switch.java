@@ -8,8 +8,8 @@ import java.net.Socket;
 
 /**
  * Created by Joncn on 15.06.2015.
- * <p>
- * Receives packets and sends them to the next switch/terminal independed from the rules
+ *
+ * Receives packets and sends them to the next switch/terminal depending on the rules
  */
 public class Switch extends Thread
 {

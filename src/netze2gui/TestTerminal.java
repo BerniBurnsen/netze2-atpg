@@ -11,6 +11,7 @@ import java.util.*;
 
 /**
  * Created by Joncn on 15.06.2015.
+ * This class represents ATPG-testterminals in the network
  */
 public class TestTerminal extends Thread
 {

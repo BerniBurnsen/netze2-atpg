@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Joncn on 15.06.2015.
+ * This is class represents a ATPG-testpacket
  */
 public class TestPacket implements Serializable
 {

@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Created by Joncn on 15.06.2015.
+ * This class holds the configuration of rules and constants across the project.
  */
 public class Config
 {

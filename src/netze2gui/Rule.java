@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 /**
  * Created by Joncn on 15.06.2015.
+ * This is a rule (like forwarding rule on a switch).
  */
 public class Rule implements Serializable
 {

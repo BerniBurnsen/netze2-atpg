@@ -13,7 +13,10 @@ import netze2gui.viewsandcontroller.MainController;
 import java.io.InputStream;
 import java.util.Scanner;
 
-
+/**
+ * this is the main class,
+ * starting ATPG and the gui.
+ */
 public class Main extends Application
 {
     Stage mainStage;
