@@ -156,13 +156,13 @@ public class Config
     }
 
     public static final Rule[] Switch_A_rules = {
-            new Rule("A:r1", true, Terminal_A, Terminal_A),
+            new Rule("A:r1", false, Terminal_A, Terminal_A),
             new Rule("A:r2", true, Link_AB, Terminal_B),
             new Rule("A:r3", true, Link_AC, Terminal_C)
     };
     public static final Rule[] Switch_B_rules = {
             new Rule("B:r1", true, Link_AB, Terminal_A),
-            new Rule("B:r2", false, Terminal_B, Terminal_B),
+            new Rule("B:r2", true, Terminal_B, Terminal_B),
             new Rule("B:r3", true, Link_BC, Terminal_C)
     };
     public static final Rule[] Switch_C_rules = {
@@ -185,7 +185,7 @@ public class Config
             new TestPacket("p3", Switch_B, Terminal_A, "B:r1", Link_AB, "A:r1"),
             new TestPacket("p4", Switch_B, Terminal_C, "B:r3", Link_BC, "C:r2"),
             new TestPacket("p5", Switch_C, Terminal_A, "C:r1", Link_AC, "A:r1"),
-            new TestPacket("p6", Switch_C, Terminal_B, "C:r1", Link_BC, "B:r2"),
+            new TestPacket("p6", Switch_C, Terminal_B, "C:r1", Link_AC, "A:r2",Link_AB,"B:r2"),
     };
 
     public static final TestPacket[] reservedPackets = {

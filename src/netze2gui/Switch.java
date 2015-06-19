@@ -65,6 +65,10 @@ public class Switch extends Thread
                                         if (!r.isWorking())
                                         {
                                             portToSend = -1;
+                                            System.err.println(name + " rule not working: " + r);
+                                            Thread.sleep(1000);
+                                            Main.mainWindow.changePictureToWrong();
+                                            Thread.sleep(1000);
                                         } else
                                         {
                                             System.out.println(name + " sending " + tp + " to " + r.getLink() + " (" + portToSend + ")");

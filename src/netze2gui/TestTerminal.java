@@ -99,22 +99,22 @@ public class TestTerminal extends Thread
                 )
                 {
                     TestPacket tp = Config.neededPackets[i]; //current testpacket
-
-                    if (mutex.attempt(PACKET_TIMEOUT))
-                    {
-
-                        timeout = false;
-                    }
-                    else
-                    {
-                        timeout = true;
-                    }
-                    if (timeout)
-                    {
-                        //when a timeout occurred the a switch or link are faulty
-                        setPacketWrong(); //in case a switch rule is faulty, this method will display it.
-                        sleep(1500);
-                    }
+                    mutex.attempt(PACKET_TIMEOUT);
+//                    if (mutex.attempt(PACKET_TIMEOUT))
+//                    {
+//
+//                        timeout = false;
+//                    }
+//                    else
+//                    {
+//                        timeout = true;
+//                    }
+//                    if (timeout)
+//                    {
+//                        //when a timeout occurred the a switch or link are faulty
+//                        setPacketWrong(); //in case a switch rule is faulty, this method will display it.
+//                        sleep(1500);
+//                    }
                     System.out.println("");
                     System.out.println("----- " + tp + " -----");
                     System.out.println(tp.getFirstHop().replaceAll("Switch", "Terminal") + " sending " + tp);
@@ -257,12 +257,19 @@ public class TestTerminal extends Thread
         {
             Collections.addAll(missingRules, p.getRuleHistory());
         }
+        System.err.println("all possible missing rules are" + missingRules);
+        /*
+        clear up
+         */
+
         for (TestPacket p : receivedPackets)
         {
+//            System.err.println("received successfully: " + p);
             for (String s : p.getRuleHistory())
             {
                 if (missingRules.contains(s))
                 {
+                    System.err.println("found rule, removing from faulty rule set" + s);
                     missingRules.remove(s);
                 }
             }
@@ -288,6 +295,7 @@ public class TestTerminal extends Thread
 
     private void setPacketWrong()
     {
+        System.err.println("setpacketwrong");
         Main.mainWindow.changePictureToWrong();
     }
 
