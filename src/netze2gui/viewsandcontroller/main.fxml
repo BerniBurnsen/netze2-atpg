@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="990.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="netze2gui.viewsandcontroller.MainController">
   <children>
@@ -195,8 +196,8 @@
       </image>
     </ImageView>
     <ListView fx:id="allRules" layoutX="865.0" layoutY="276.0" prefHeight="385.0" prefWidth="110.0" />
-    <ListView fx:id="switch_A_RULES" layoutX="217.0" layoutY="23.0" prefHeight="111.0" prefWidth="200.0" />
-    <ListView fx:id="switch_B_RULES" layoutX="679.0" layoutY="22.0" prefHeight="111.0" prefWidth="200.0" />
+    <ListView fx:id="switch_A_RULES" layoutX="217.0" layoutY="23.0" prefHeight="97.0" prefWidth="200.0" />
+    <ListView fx:id="switch_B_RULES" layoutX="679.0" layoutY="23.0" prefHeight="97.0" prefWidth="200.0" />
     <ListView fx:id="switch_C_RULES" layoutX="605.0" layoutY="493.0" prefHeight="111.0" prefWidth="250.0" />
     <TableView id="testPackets" fx:id="testPacketsTableView" layoutX="8.0" layoutY="273.0" prefHeight="394.0" prefWidth="305.0">
       <columns>
@@ -205,5 +206,15 @@
         <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="173.0" text="History" fx:id="historyTableColumn" />
       </columns>
     </TableView>
+    <Label layoutX="205.0" layoutY="127.0" text="Terminal A">
+      <font>
+        <Font name="System Bold" size="16.0" fx:id="x1" />
+      </font>
+    </Label>
+    <Label font="$x1" layoutX="363.0" layoutY="182.0" text="Switch A" />
+    <Label font="$x1" layoutX="671.0" layoutY="181.0" text="Switch B" />
+    <Label font="$x1" layoutX="804.0" layoutY="128.0" text="Terminal B" />
+    <Label font="$x1" layoutX="423.0" layoutY="541.0" text="Terminal C" />
+    <Label font="$x1" layoutX="515.0" layoutY="453.0" text="Switch C" />
   </children>
 </AnchorPane>
