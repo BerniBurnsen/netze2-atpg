@@ -17,6 +17,7 @@ public class Link extends Thread
     private final String left;
     private final String right;
     private final String name;
+    private boolean worked = false;
     private boolean working;
 
     public Link(String name, int port, String left, String right, boolean working)
@@ -70,6 +71,7 @@ public class Link extends Thread
                                 startAnimation(false);
                             }
 
+
                             final int tmpPort = portToSend; //Port of the target switch
                             if (working)
                             {
@@ -101,6 +103,18 @@ public class Link extends Thread
                             }
                             else
                             {
+                                switch(tp.getDestination())
+                                {
+                                    case Config.Terminal_A:
+                                        Main.mainWindow.packetTerminal_A_ERROR();
+                                        break;
+                                    case Config.Terminal_B:
+                                        Main.mainWindow.packetTerminal_B_ERROR();
+                                        break;
+                                    case Config.Terminal_C:
+                                        Main.mainWindow.packetTerminal_C_ERROR();
+                                        break;
+                                }
                                 System.err.println(name + " Link not working!");
                             }
 
@@ -149,6 +163,7 @@ public class Link extends Thread
                         Main.mainWindow.animateLinkBCBackward();
                     break;
             }
+
         }
         else
         {
@@ -206,6 +221,16 @@ public class Link extends Thread
     @Override
     public String toString()
     {
-        return "netze2gui.Link \"" + name + "\"";
+        return "Link \"" + name + "\"";
+    }
+
+    public boolean isWorked()
+    {
+        return worked;
+    }
+
+    public void setWorked(boolean worked)
+    {
+        this.worked = worked;
     }
 }

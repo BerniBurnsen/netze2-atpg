@@ -67,7 +67,48 @@ public class Switch extends Thread
                                             portToSend = -1;
                                             System.err.println(name + " rule not working: " + r);
                                             Thread.sleep(1000);
-                                            Main.mainWindow.changePictureToWrong();
+
+                                            switch (name)
+                                            {
+                                                case Config.Switch_A:
+                                                    Main.mainWindow.packetSwitch_A_Error_Visible();
+                                                    Main.mainWindow.packetSwitch_A_Inisible();
+                                                    break;
+                                                case Config.Switch_B:
+                                                    Main.mainWindow.packetSwitch_B_Error_Visible();
+                                                    Main.mainWindow.packetSwitch_B_Inisible();
+                                                    break;
+                                                case Config.Switch_C:
+                                                    Main.mainWindow.packetSwitch_C_Error_Visible();
+                                                    Main.mainWindow.packetSwitch_C_Inisible();
+                                                    break;
+                                            }
+                                            sleep(1000);
+                                            switch (name)
+                                            {
+                                                case Config.Switch_A:
+                                                    Main.mainWindow.packetSwitch_A_ERROR_Invisible();
+                                                    break;
+                                                case Config.Switch_B:
+                                                    Main.mainWindow.packetSwitch_B_ERROR_Invisible();
+                                                    break;
+                                                case Config.Switch_C:
+                                                    Main.mainWindow.packetSwitch_C_ERROR_Invisible();
+                                                    break;
+                                            }
+                                            switch(tp.getDestination())
+                                            {
+                                                case Config.Terminal_A:
+                                                    Main.mainWindow.packetTerminal_A_ERROR();
+                                                    break;
+                                                case Config.Terminal_B:
+                                                    Main.mainWindow.packetTerminal_B_ERROR();
+                                                    break;
+                                                case Config.Terminal_C:
+                                                    Main.mainWindow.packetTerminal_C_ERROR();
+                                                    break;
+                                            }
+                                            System.err.println(tp.getDestination());
                                             Thread.sleep(1000);
                                         } else
                                         {
@@ -91,6 +132,7 @@ public class Switch extends Thread
                                     oos.writeObject(tp);
                                     oos.flush();
                                     setPacketInvisible();
+
                                     //System.out.println(name + " sending " + tp);
                                 } catch (Exception e)
                                 {

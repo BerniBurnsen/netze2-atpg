@@ -57,6 +57,27 @@ public class TestTerminal extends Thread
                             {
                                 TestPacket tp = (TestPacket) ois.readObject();
                                 receivedPackets.add(tp);
+
+                                for(String s : tp.getRuleHistory())
+                                {
+                                    //System.err.println("correct rule " + s );
+                                    Main.mainWindow.flagRuleCorrect(s);
+                                }
+
+                                switch(tp.getDestination())
+                                {
+                                    case Config.Terminal_A:
+                                        Main.mainWindow.packetTerminal_A_Success();
+                                        break;
+                                    case Config.Terminal_B:
+                                        Main.mainWindow.packetTerminal_B_Success();
+                                        break;
+                                    case Config.Terminal_C:
+                                        Main.mainWindow.packetTerminal_C_Success();
+                                        break;
+                                    default:
+                                        System.out.println(tp.getDestination());
+                                }
                                 System.out.println(tp.getDestination().replaceAll("Switch", "Terminal") + " received " + tp);
                                 System.out.println("----- " + tp + " -----");
                                 sleep(TIME_BETWEEN_PACKETS);
@@ -100,6 +121,7 @@ public class TestTerminal extends Thread
                 {
                     TestPacket tp = Config.neededPackets[i]; //current testpacket
                     mutex.attempt(PACKET_TIMEOUT);
+                    Main.mainWindow.flagTestPacket(tp);
 //                    if (mutex.attempt(PACKET_TIMEOUT))
 //                    {
 //
@@ -291,12 +313,6 @@ public class TestTerminal extends Thread
             }
         }
         return missingRules;
-    }
-
-    private void setPacketWrong()
-    {
-        System.err.println("setpacketwrong");
-        Main.mainWindow.changePictureToWrong();
     }
 
     public void releaseSendMutex()

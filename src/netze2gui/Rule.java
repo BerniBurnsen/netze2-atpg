@@ -13,6 +13,7 @@ public class Rule implements Serializable
     private final String[] destinations;
     private final String link;
     private final String name;
+    private boolean worked = false;
     private boolean working;
 
     public Rule(String name, boolean working, String link, String destination, String... destinations)
@@ -73,6 +74,18 @@ public class Rule implements Serializable
     @Override
     public String toString()
     {
-        return "netze2gui.Rule \"" + name + "\"";
+        return "Rule \"" + name + "\"";
+    }
+
+    public String getName() {return name;}
+
+    public boolean isWorked()
+    {
+        return worked;
+    }
+
+    public void setWorked(boolean worked)
+    {
+        this.worked = worked;
     }
 }

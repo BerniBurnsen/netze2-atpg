@@ -1,15 +1,22 @@
 package netze2gui.viewsandcontroller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import netze2gui.TestTerminal;
+import javafx.util.Callback;
+import netze2gui.*;
+
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -77,7 +84,54 @@ public class MainController implements Initializable
     ImageView packetImageView_LINKBC_ERROR;
 
     @FXML
+    ImageView packetImageView_TERMINAL_A_1;
+    @FXML
+    ImageView packetImageView_TERMINAL_A_2;
+    @FXML
+    ImageView packetImageView_TERMINAL_B_1;
+    @FXML
+    ImageView packetImageView_TERMINAL_B_2;
+    @FXML
+    ImageView packetImageView_TERMINAL_C_1;
+    @FXML
+    ImageView packetImageView_TERMINAL_C_2;
+
+    @FXML
+    ImageView packetImageView_TERMINAL_A_1_ERROR;
+    @FXML
+    ImageView packetImageView_TERMINAL_A_2_ERROR;
+    @FXML
+    ImageView packetImageView_TERMINAL_B_1_ERROR;
+    @FXML
+    ImageView packetImageView_TERMINAL_B_2_ERROR;
+    @FXML
+    ImageView packetImageView_TERMINAL_C_1_ERROR;
+    @FXML
+    ImageView packetImageView_TERMINAL_C_2_ERROR;
+
+    @FXML
+    ListView allRules;
+    @FXML
+    ListView switch_A_RULES;
+    @FXML
+    ListView switch_B_RULES;
+    @FXML
+    ListView switch_C_RULES;
+
+    @FXML
+    TableColumn<TestPacket,String> fromTableColumn;
+    @FXML
+    TableColumn<TestPacket,String> toTableColumn;
+    @FXML
+    TableColumn<TestPacket,String> historyTableColumn;
+
+    @FXML
+    TableView<TestPacket> testPacketsTableView;
+
+    @FXML
     Button startAnimationButton;
+
+    private final List<Object> allRulesLinks = new ArrayList<>();
     private TestTerminal tt;
 
     @Override
@@ -102,6 +156,18 @@ public class MainController implements Initializable
                 packetImageView_SWITCH_A_ERROR,
                 packetImageView_SWITCH_B_ERROR,
                 packetImageView_SWITCH_C_ERROR,
+                packetImageView_TERMINAL_A_1,
+                packetImageView_TERMINAL_A_2,
+                packetImageView_TERMINAL_B_1,
+                packetImageView_TERMINAL_B_2,
+                packetImageView_TERMINAL_C_1,
+                packetImageView_TERMINAL_C_2,
+                packetImageView_TERMINAL_A_1_ERROR,
+                packetImageView_TERMINAL_A_2_ERROR,
+                packetImageView_TERMINAL_B_1_ERROR,
+                packetImageView_TERMINAL_B_2_ERROR,
+                packetImageView_TERMINAL_C_1_ERROR,
+                packetImageView_TERMINAL_C_2_ERROR
 
         };
 
@@ -147,8 +213,141 @@ public class MainController implements Initializable
         {
             iv.setOpacity(0.0);
         }
+        System.out.println("initialize finished");
+    }
+
+    public void flagTestPacket(TestPacket tp)
+    {
+        Platform.runLater(() -> testPacketsTableView.getSelectionModel().select(tp));
+    }
+
+    public void init()
+    {
+        fillTestPacketTableView();
+        fillSwitchARuleListView();
+        fillSwitchBRuleListView();
+        fillSwitchCRuleListView();
+        fillAllRulesListView();
+    }
+
+    private void fillAllRulesListView()
+    {
+        allRulesLinks.clear();
+        final ObservableList<Object> orl = FXCollections.observableArrayList();
+        for(Rule r : Config.Switch_A_rules)
+        {
+            orl.add(r);
+        }
+        for(Rule r : Config.Switch_B_rules)
+        {
+            orl.add(r);
+        }
+        for(Rule r : Config.Switch_C_rules)
+        {
+            orl.add(r);
+        }
+        for(Link l : Main.allLinks)
+        {
+            orl.add(l);
+        }
+        allRulesLinks.addAll(orl);
+        allRules.setItems(orl);
+        allRules.setCellFactory(new Callback<ListView<Object>, ListCell<Object>>()
+        {
+            @Override
+            public ListCell<Object> call(ListView<Object> list)
+            {
+                return new RuleCell();
+            }
+        });
+    }
+
+    public void flagRuleCorrect(String name)
+    {
+        Object tmpObject = null;
+        for(Object obj : allRulesLinks)
+        {
+            if(obj.toString().contains(name))
+            {
+                tmpObject = obj;
+                break;
+            }
+        }
+        //System.err.println("found rule: " + tmpObject);
+        if(tmpObject instanceof Rule)
+        {
+            ((Rule) tmpObject).setWorked(true);
+        }
+        else if (tmpObject instanceof Link)
+        {
+            ((Link)tmpObject).setWorked(true);
+        }
+        fillAllRulesListView();
+    }
+
+    private void fillSwitchARuleListView()
+    {
+        final ObservableList<Rule> orl = FXCollections.observableArrayList();
+        for(Rule r : Config.Switch_A_rules)
+        {
+            orl.add(r);
+        }
+        switch_A_RULES.setItems(orl);
+        switch_A_RULES.setCellFactory(new Callback<ListView<Rule>, ListCell<Rule>>()
+        {
+            @Override
+            public ListCell<Rule> call(ListView<Rule> list)
+            {
+                return new RuleListViewCellFactory();
+            }
+        });
+    }
+    private void fillSwitchBRuleListView()
+    {
+        final ObservableList<Rule> orl = FXCollections.observableArrayList();
+        for(Rule r : Config.Switch_B_rules)
+        {
+            orl.add(r);
+        }
+        switch_B_RULES.setItems(orl);
+        switch_B_RULES.setCellFactory(new Callback<ListView<Rule>, ListCell<Rule>>()
+        {
+            @Override
+            public ListCell<Rule> call(ListView<Rule> list)
+            {
+                return new RuleListViewCellFactory();
+            }
+        });
 
     }
+    private void fillSwitchCRuleListView()
+    {
+        final ObservableList<Rule> orl = FXCollections.observableArrayList();
+        for(Rule r : Config.Switch_C_rules)
+        {
+            orl.add(r);
+        }
+        switch_C_RULES.setItems(orl);
+        switch_C_RULES.setCellFactory(new Callback<ListView<Rule>, ListCell<Rule>>()
+        {
+            @Override
+            public ListCell<Rule> call(ListView<Rule> list)
+            {
+                return new RuleListViewCellFactory();
+            }
+        });
+    }
+    private void fillTestPacketTableView()
+    {
+        final ObservableList<TestPacket> otl = FXCollections.observableArrayList();
+        otl.clear();
+        otl.addAll(Config.allTestpackets);
+        fromTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("from"));
+        toTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("destination"));
+        historyTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("ruleHistoryString"));
+        testPacketsTableView.setItems(otl);
+    }
+
 
     public void animateLinkABForward()
     {
@@ -223,9 +422,77 @@ public class MainController implements Initializable
         animateImageInvisible(packetImageView_SwitchC);
     }
 
-    public void changePictureToWrong()
+    public void packetTerminal_A_ERROR()
     {
-        ImageView tmpiv = null;
+        if(packetImageView_TERMINAL_A_1_ERROR.getOpacity() == 0.0)
+        {
+           animateImageVisible(packetImageView_TERMINAL_A_1_ERROR);
+        }
+        else if(packetImageView_TERMINAL_A_2_ERROR.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_A_2_ERROR);
+        }
+    }
+    public void packetTerminal_B_ERROR()
+    {
+        if(packetImageView_TERMINAL_B_1_ERROR.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_B_1_ERROR);
+        }
+        else if(packetImageView_TERMINAL_B_2_ERROR.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_B_2_ERROR);
+        }
+    }
+    public void packetTerminal_C_ERROR()
+    {
+        if(packetImageView_TERMINAL_C_1_ERROR.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_C_1_ERROR);
+        }
+        else if(packetImageView_TERMINAL_C_2_ERROR.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_C_2_ERROR);
+        }
+    }
+
+    public void packetTerminal_A_Success()
+    {
+        if(packetImageView_TERMINAL_A_1.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_A_1);
+        }
+        else if (packetImageView_TERMINAL_A_2.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_A_2);
+        }
+    }
+    public void packetTerminal_B_Success()
+    {
+        if(packetImageView_TERMINAL_B_1.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_B_1);
+        }
+        else if (packetImageView_TERMINAL_B_2.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_B_2);
+        }
+    }
+    public void packetTerminal_C_Success()
+    {
+        if(packetImageView_TERMINAL_C_1.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_C_1);
+        }
+        else if (packetImageView_TERMINAL_C_2.getOpacity() == 0.0)
+        {
+            animateImageVisible(packetImageView_TERMINAL_C_2);
+        }
+    }
+
+    public void changePictureToWrong(TestPacket tp)
+    {
+        /*ImageView tmpiv = null;
         for(ImageView imageView : packetImageViews)
         {
             if(imageView.getOpacity() == 1.0)
@@ -284,7 +551,7 @@ public class MainController implements Initializable
         };
         Thread th = new Thread(task);
         th.setDaemon(true);
-        th.start();
+        th.start();*/
     }
 
 

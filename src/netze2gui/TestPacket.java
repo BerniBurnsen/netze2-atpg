@@ -9,9 +9,11 @@ import java.io.Serializable;
 public class TestPacket implements Serializable
 {
     private String[] ruleHistory;
+    private String ruleHistoryString;
     private String name;
     private String destination;
     private String firstHop;
+    private String from;
     private String lastHop = null;
 
     public TestPacket()
@@ -25,6 +27,26 @@ public class TestPacket implements Serializable
         this.setFirstHop(firstHop);
         this.setDestination(destination);
         this.setRuleHistory(ruleHistory);
+        StringBuilder sb = new StringBuilder();
+        for(String s : ruleHistory)
+        {
+            sb.append(s+", ");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length()-1);
+        setRuleHistoryString(sb.toString());
+        switch(firstHop)
+        {
+            case Config.Switch_A:
+                setFrom(Config.Terminal_A);
+                break;
+            case Config.Switch_B:
+                setFrom(Config.Terminal_B);
+                break;
+            case Config.Switch_C:
+                setFrom(Config.Terminal_C);
+                break;
+        }
     }
 
     public String[] getRuleHistory()
@@ -95,5 +117,25 @@ public class TestPacket implements Serializable
     public String toString()
     {
         return "Packet \"" + name + "\"";
+    }
+
+    public String getRuleHistoryString()
+    {
+        return ruleHistoryString;
+    }
+
+    public void setRuleHistoryString(String ruleHistroyString)
+    {
+        this.ruleHistoryString = ruleHistroyString;
+    }
+
+    public String getFrom()
+    {
+        return from;
+    }
+
+    public void setFrom(String from)
+    {
+        this.from = from;
     }
 }

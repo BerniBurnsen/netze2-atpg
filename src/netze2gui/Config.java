@@ -1,7 +1,6 @@
 package netze2gui;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Joncn on 15.06.2015.
@@ -116,17 +115,17 @@ public class Config
             Link_AB, Link_AC, Link_BD, Link_CD
     };*/
 
-    public static final String Switch_A = "netze2gui.Switch A";
-    public static final String Switch_B = "netze2gui.Switch B";
-    public static final String Switch_C = "netze2gui.Switch C";
+    public static final String Switch_A = "Switch A";
+    public static final String Switch_B = "Switch B";
+    public static final String Switch_C = "Switch C";
 
     public static final String Terminal_A = "Terminal A";
     public static final String Terminal_B = "Terminal B";
     public static final String Terminal_C = "Terminal C";
 
-    public static final String Link_AB = "netze2gui.Link AB";
-    public static final String Link_AC = "netze2gui.Link AC";
-    public static final String Link_BC = "netze2gui.Link BC";
+    public static final String Link_AB = "Link AB";
+    public static final String Link_AC = "Link AC";
+    public static final String Link_BC = "Link BC";
 
     public static final int Terminal_A_port = 10001;
     public static final int Terminal_B_port = 10002;
@@ -139,6 +138,8 @@ public class Config
     public static final int Link_AB_port = 10009;
     public static final int Link_AC_port = 10010;
     public static final int Link_BC_port = 10011;
+
+    public final static List<TestPacket> allTestpackets = new ArrayList<>();
 
     public static final Map<String, Integer> ports = new HashMap<>();
 
@@ -172,13 +173,6 @@ public class Config
 
     public static final Map<String, Rule[]> rules = new HashMap<>();
 
-    static
-    {
-        rules.put(Switch_A, Switch_A_rules);
-        rules.put(Switch_B, Switch_B_rules);
-        rules.put(Switch_C, Switch_C_rules);
-    }
-
     public static final TestPacket[] neededPackets = {
             new TestPacket("p1", Switch_A, Terminal_B, "A:r2", Link_AB, "B:r2"),
             new TestPacket("p2", Switch_A, Terminal_C, "A:r3", Link_AC, "C:r2"),
@@ -198,4 +192,14 @@ public class Config
             "C:r1", "C:r2",
             Link_AB, Link_AC, Link_BC
     };
+
+    static
+    {
+        rules.put(Switch_A, Switch_A_rules);
+        rules.put(Switch_B, Switch_B_rules);
+        rules.put(Switch_C, Switch_C_rules);
+
+        allTestpackets.addAll(Arrays.asList(neededPackets));
+        allTestpackets.addAll(Arrays.asList(reservedPackets));
+    }
 }
