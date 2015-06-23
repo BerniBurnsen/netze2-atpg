@@ -51,18 +51,18 @@ public class Config
 
     public static final Rule[] Switch_A_rules = {
             new Rule("A:r1", true, Terminal_A, Terminal_A), //false = A:r1, B:r1 mit Reserved
-            new Rule("A:r2", false, Link_AB, Terminal_B), //false = A:r2, B:r2 mit Reserved
+            new Rule("A:r2", true, Link_AB, Terminal_B), //false = A:r2 mit Reserved //TODO: !!! MIT RESERVED !!!
             new Rule("A:r3", true, Link_AC, Terminal_C) //false = A:r3 ohne Reserved
     };
     public static final Rule[] Switch_B_rules = {
             new Rule("B:r1", true, Link_AB, Terminal_A),   //false = B:r1 ohne Reserved
             new Rule("B:r2", true, Terminal_B, Terminal_B), //false = A:r2, B:r2 mit Reserved
-            new Rule("B:r3", true, Link_BC, Terminal_C)    //false = B:r3, Link BC //TODO: (Reserved wird noch geschickt aber unnötig)
+            new Rule("B:r3", true, Link_BC, Terminal_C)    //false = B:r3 //TODO: !!! MIT RESERVED !!!
     };
     static String[] ruleC = {Link_AC, Link_BC};
     public static final Rule[] Switch_C_rules = {
             new Rule("C:r1", true, ruleC, Terminal_A, Terminal_B), //false = C:r1 ohne Reserved
-            new Rule("C:r2", true, Terminal_C, Terminal_C) //false = A:r3, B:r3, C:r2, Link BC //TODO: (Reserved wird noch geschickt aber unnötig) //OUT
+            new Rule("C:r2", false, Terminal_C, Terminal_C) //false = A:r3, B:r3, C:r2, Link BC //TODO: (Reserved wird noch geschickt aber unnötig) //OUT
     };
 
     public static final Map<String, Rule[]> rules = new HashMap<>();

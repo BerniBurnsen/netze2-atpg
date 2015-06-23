@@ -122,21 +122,6 @@ public class TestTerminal extends Thread
                     TestPacket tp = Config.neededPackets[i]; //current testpacket
                     mutex.attempt(PACKET_TIMEOUT);
                     Main.mainWindow.flagTestPacket(tp);
-//                    if (mutex.attempt(PACKET_TIMEOUT))
-//                    {
-//
-//                        timeout = false;
-//                    }
-//                    else
-//                    {
-//                        timeout = true;
-//                    }
-//                    if (timeout)
-//                    {
-//                        //when a timeout occurred the a switch or link are faulty
-//                        setPacketWrong(); //in case a switch rule is faulty, this method will display it.
-//                        sleep(1500);
-//                    }
                     System.out.println("");
                     System.out.println("----- " + tp + " -----");
                     System.out.println(tp.getFirstHop().replaceAll("Switch", "Terminal") + " sending " + tp);
@@ -207,22 +192,36 @@ public class TestTerminal extends Thread
          */
         for (int i = 0; i < Config.reservedPackets.length; i++)
         {
-            try (Socket so = new Socket("localhost", Config.ports.get(Config.reservedPackets[i].getFirstHop()));
-                 ObjectOutputStream oos = new ObjectOutputStream(
-                         new BufferedOutputStream(
-                                 so.getOutputStream()))
-            )
+            boolean send = false;
+            for(String h : Config.reservedPackets[i].getRuleHistory())
             {
-                mutex.attempt(PACKET_TIMEOUT);
-                TestPacket tp = Config.reservedPackets[i];
-                System.err.println("Possible Failures: " + missingRules);
-                System.err.println("");
-                System.err.println("----- " + tp + " to find failure -----");
-                System.out.println(tp.getFirstHop().replaceAll("Switch", "Terminal") + " sending " + tp + " to");
-                oos.writeObject(tp);
-            } catch (Exception e)
+                for(String m : missingRules)
+                {
+                    if(h.contains(m))
+                    {
+                        send = true;
+                    }
+                }
+            }
+            if(send)
             {
-                e.printStackTrace();
+                try (Socket so = new Socket("localhost", Config.ports.get(Config.reservedPackets[i].getFirstHop()));
+                     ObjectOutputStream oos = new ObjectOutputStream(
+                             new BufferedOutputStream(
+                                     so.getOutputStream()))
+                )
+                {
+                    mutex.attempt(PACKET_TIMEOUT);
+                    TestPacket tp = Config.reservedPackets[i];
+                    System.err.println("Possible Failures: " + missingRules);
+                    System.err.println("");
+                    System.err.println("----- " + tp + " to find failure -----");
+                    System.out.println(tp.getFirstHop().replaceAll("Switch", "Terminal") + " sending " + tp + " to");
+                    oos.writeObject(tp);
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
         try
