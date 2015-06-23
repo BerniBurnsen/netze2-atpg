@@ -80,13 +80,13 @@ public class Main extends Application
 
     public static void main(String[] args)
     {
-        Link tmpLink = new Link(Config.Link_AB, Config.ports.get(Config.Link_AB), Config.Switch_A, Config.Switch_B, true);
+        Link tmpLink = new Link(Config.Link_AB, Config.ports.get(Config.Link_AB), Config.Switch_A, Config.Switch_B, true); //false = A:r2, B:r1, B:r2, Link AB mit Reserved
         tmpLink.start();
         allLinks.add(tmpLink);
-        tmpLink = new Link(Config.Link_AC, Config.ports.get(Config.Link_AC), Config.Switch_A, Config.Switch_C, true);
+        tmpLink = new Link(Config.Link_AC, Config.ports.get(Config.Link_AC), Config.Switch_A, Config.Switch_C, true); //false = A:r3, C:r1, Link AC
         tmpLink.start();
         allLinks.add(tmpLink);
-        tmpLink = new Link(Config.Link_BC, Config.ports.get(Config.Link_BC), Config.Switch_B, Config.Switch_C, true);
+        tmpLink = new Link(Config.Link_BC, Config.ports.get(Config.Link_BC), Config.Switch_B, Config.Switch_C, true); //false = B:r3, Link BC //TODO: (Reserved wird noch geschickt aber unnötig)
         tmpLink.start();
         allLinks.add(tmpLink);
 
