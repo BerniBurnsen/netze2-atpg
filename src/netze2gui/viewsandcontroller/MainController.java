@@ -424,7 +424,7 @@ public class MainController implements Initializable
 
     public void packetTerminal_A_ERROR()
     {
-        if(packetImageView_TERMINAL_A_1_ERROR.getOpacity() == 0.0)
+        if(packetImageView_TERMINAL_A_1_ERROR.getOpacity() == 0.0 && packetImageView_TERMINAL_A_1.getOpacity() == 0.0)
         {
            animateImageVisible(packetImageView_TERMINAL_A_1_ERROR);
         }
@@ -435,7 +435,7 @@ public class MainController implements Initializable
     }
     public void packetTerminal_B_ERROR()
     {
-        if(packetImageView_TERMINAL_B_1_ERROR.getOpacity() == 0.0)
+        if(packetImageView_TERMINAL_B_1_ERROR.getOpacity() == 0.0 && packetImageView_TERMINAL_B_1.getOpacity() == 0.0)
         {
             animateImageVisible(packetImageView_TERMINAL_B_1_ERROR);
         }
@@ -446,7 +446,7 @@ public class MainController implements Initializable
     }
     public void packetTerminal_C_ERROR()
     {
-        if(packetImageView_TERMINAL_C_1_ERROR.getOpacity() == 0.0)
+        if(packetImageView_TERMINAL_C_1_ERROR.getOpacity() == 0.0 && packetImageView_TERMINAL_C_1.getOpacity() == 0.0)
         {
             animateImageVisible(packetImageView_TERMINAL_C_1_ERROR);
         }
@@ -458,7 +458,7 @@ public class MainController implements Initializable
 
     public void packetTerminal_A_Success()
     {
-        if(packetImageView_TERMINAL_A_1.getOpacity() == 0.0)
+        if(packetImageView_TERMINAL_A_1.getOpacity() == 0.0 && packetImageView_TERMINAL_A_1_ERROR.getOpacity() == 0.0)
         {
             animateImageVisible(packetImageView_TERMINAL_A_1);
         }
@@ -469,7 +469,7 @@ public class MainController implements Initializable
     }
     public void packetTerminal_B_Success()
     {
-        if(packetImageView_TERMINAL_B_1.getOpacity() == 0.0)
+        if(packetImageView_TERMINAL_B_1.getOpacity() == 0.0 && packetImageView_TERMINAL_B_1_ERROR.getOpacity() == 0.0)
         {
             animateImageVisible(packetImageView_TERMINAL_B_1);
         }
@@ -480,7 +480,7 @@ public class MainController implements Initializable
     }
     public void packetTerminal_C_Success()
     {
-        if(packetImageView_TERMINAL_C_1.getOpacity() == 0.0)
+        if(packetImageView_TERMINAL_C_1.getOpacity() == 0.0 && packetImageView_TERMINAL_C_1_ERROR.getOpacity() == 0.0)
         {
             animateImageVisible(packetImageView_TERMINAL_C_1);
         }
