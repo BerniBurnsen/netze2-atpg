@@ -126,7 +126,17 @@ public class MainController implements Initializable
     TableColumn<TestPacket,String> historyTableColumn;
 
     @FXML
+    TableColumn<TestPacket,String> fromTableColumn_RES;
+    @FXML
+    TableColumn<TestPacket,String> toTableColumn_RES;
+    @FXML
+    TableColumn<TestPacket,String> historyTableColumn_RES;
+
+    @FXML
     TableView<TestPacket> testPacketsTableView;
+
+    @FXML
+    TableView<TestPacket> testPacketsTableView_RES;
 
     @FXML
     Button startAnimationButton;
@@ -222,9 +232,16 @@ public class MainController implements Initializable
         Platform.runLater(() -> testPacketsTableView.requestFocus());
     }
 
+    public void flagReservedTestPacket(TestPacket tp)
+    {
+        Platform.runLater(() -> testPacketsTableView_RES.getSelectionModel().select(tp));
+        Platform.runLater(() -> testPacketsTableView_RES.requestFocus());
+    }
+
     public void init()
     {
         fillTestPacketTableView();
+        fillReservedTestPacketTableView();
         fillSwitchARuleListView();
         fillSwitchBRuleListView();
         fillSwitchCRuleListView();
@@ -349,6 +366,16 @@ public class MainController implements Initializable
         testPacketsTableView.setItems(otl);
     }
 
+    private void fillReservedTestPacketTableView()
+    {
+        final ObservableList<TestPacket> otl = FXCollections.observableArrayList();
+        otl.clear();
+        otl.addAll(Config.reservedPackets);
+        fromTableColumn_RES.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("from"));
+        toTableColumn_RES.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("destination"));
+        historyTableColumn_RES.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("ruleHistoryString"));
+        testPacketsTableView_RES.setItems(otl);
+    }
 
     public void animateLinkABForward()
     {

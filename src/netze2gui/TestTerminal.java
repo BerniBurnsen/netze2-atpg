@@ -213,6 +213,7 @@ public class TestTerminal extends Thread
                 {
                     mutex.attempt(PACKET_TIMEOUT);
                     TestPacket tp = Config.reservedPackets[i];
+                    Main.mainWindow.flagReservedTestPacket(tp);
                     System.err.println("Possible Failures: " + missingRules);
                     System.err.println("");
                     System.err.println("----- " + tp + " to find failure -----");
