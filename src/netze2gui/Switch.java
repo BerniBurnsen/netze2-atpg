@@ -119,7 +119,7 @@ public class Switch extends Thread
                                             Thread.sleep(1000);
                                         } else
                                         {
-                                            System.out.println(name + " sending " + tp + " to " + r.getLink() + " (" + portToSend + ")");
+                                            System.out.println(name + " sending " + tp + " to " + r.getLink(dest) + " (" + portToSend + ")");
                                         }
                                         break ruleFinding;
                                     }
