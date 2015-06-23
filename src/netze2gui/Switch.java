@@ -61,7 +61,14 @@ public class Switch extends Thread
                                 {
                                     if (s.equals(dest))
                                     {
-                                        portToSend = Config.ports.get(r.getLink());
+                                        if(r.getLink().length == 1)
+                                        {
+                                            portToSend = Config.ports.get(r.getLink()[0]);
+                                        }
+                                        else
+                                        {
+                                            portToSend = Config.ports.get(r.getLink(dest));
+                                        }
                                         if (!r.isWorking())
                                         {
                                             portToSend = -1;

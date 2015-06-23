@@ -11,12 +11,12 @@ import java.util.LinkedList;
 public class Rule implements Serializable
 {
     private final String[] destinations;
-    private final String link;
+    private final String[] link;
     private final String name;
     private boolean worked = false;
     private boolean working;
 
-    public Rule(String name, boolean working, String link, String destination, String... destinations)
+    public Rule(String name, boolean working, String[] link, String destination, String... destinations)
     {
         if (destinations != null && destinations.length > 0)
         {
@@ -33,14 +33,67 @@ public class Rule implements Serializable
         this.setWorking(working);
     }
 
+    public Rule(String name, boolean working, String link, String destination, String... destinations)
+    {
+        if (destinations != null && destinations.length > 0)
+        {
+            LinkedList<String> tmp = new LinkedList<>();
+            tmp.addFirst(destination);
+            tmp.addAll(Arrays.asList(destinations));
+            this.destinations = tmp.toArray(destinations);
+        } else
+        {
+            this.destinations = new String[]{destination};
+        }
+        this.link = new String[1];
+        this.link[0] = link;
+        this.name = name;
+        this.setWorking(working);
+    }
+
     public String[] getDestinations()
     {
         return destinations;
     }
 
-    public String getLink()
+    public String[] getLink()
     {
         return link;
+    }
+
+    public String getLink(String dest)
+    {
+        if(dest.contains("A"))
+        {
+            for(String l : link)
+            {
+                if(l.contains("A"))
+                {
+                    return l;
+                }
+            }
+        }
+        else if(dest.contains("B"))
+        {
+            for(String l : link)
+            {
+                if(l.contains("B"))
+                {
+                    return l;
+                }
+            }
+        }
+        else if(dest.contains("C"))
+        {
+            for(String l : link)
+            {
+                if(l.contains("C"))
+                {
+                    return l;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
