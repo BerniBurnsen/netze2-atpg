@@ -219,6 +219,7 @@ public class MainController implements Initializable
     public void flagTestPacket(TestPacket tp)
     {
         Platform.runLater(() -> testPacketsTableView.getSelectionModel().select(tp));
+        Platform.runLater(() -> testPacketsTableView.requestFocus());
     }
 
     public void init()
@@ -341,7 +342,7 @@ public class MainController implements Initializable
     {
         final ObservableList<TestPacket> otl = FXCollections.observableArrayList();
         otl.clear();
-        otl.addAll(Config.allTestpackets);
+        otl.addAll(Config.neededPackets);
         fromTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("from"));
         toTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("destination"));
         historyTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("ruleHistoryString"));
