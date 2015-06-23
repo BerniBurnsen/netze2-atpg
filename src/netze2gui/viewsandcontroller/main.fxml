@@ -216,5 +216,8 @@
     <Label font="$x1" layoutX="804.0" layoutY="128.0" text="Terminal B" />
     <Label font="$x1" layoutX="423.0" layoutY="541.0" text="Terminal C" />
     <Label font="$x1" layoutX="515.0" layoutY="453.0" text="Switch C" />
+    <Label font="$x1" layoutX="516.0" layoutY="178.0" text="LINK AB" />
+    <Label font="$x1" layoutX="437.0" layoutY="344.0" text="LINK AC" />
+    <Label font="$x1" layoutX="711.0" layoutY="355.0" text="LINK BC" />
   </children>
 </AnchorPane>
