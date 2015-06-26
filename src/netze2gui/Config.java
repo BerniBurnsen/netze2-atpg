@@ -75,7 +75,7 @@ public class Config
             new Rule("A:r3", A3, Link_AC, Terminal_C) //false = A:r3 ohne Reserved
     };
     public static final Rule[] Switch_B_rules = {
-            new Rule("B:r1", true, Link_AB, Terminal_A),   //false = B:r1 ohne Reserved
+            new Rule("B:r1", true, Link_AB, Terminal_A),   //false = B:r1  //TODO: !!! OHNE RESERVED !!!
             new Rule("B:r2", true, Terminal_B, Terminal_B), //false = A:r2, B:r2 mit Reserved
             new Rule("B:r3", true, Link_BC, Terminal_C)    //false = B:r3 //TODO: !!! MIT RESERVED !!!
     };
