@@ -18,6 +18,7 @@ public class RuleListViewCellFactory extends ListCell<Rule>
             }
             sb.deleteCharAt(sb.length()-1);
             sb.deleteCharAt(sb.length()-1);
+            setStyle("-fx-font-weight: bold; -fx-font-size: 15");
             setText(item.getName() + " Dest:  " + sb.toString() +" -> " + (item.getLink().length == 1 ? item.getLink()[0] : item.getLink()[0] + ", " + item.getLink()[1]));
         }
     }

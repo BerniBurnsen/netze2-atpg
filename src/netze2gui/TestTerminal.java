@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class TestTerminal extends Thread
 {
-    private static final int PACKET_TIMEOUT = 7000;
+    private static final int PACKET_TIMEOUT = 15000;
     private static final int TIME_BETWEEN_PACKETS = 1000;
 
     private final int[] ports;
@@ -81,7 +81,7 @@ public class TestTerminal extends Thread
                                 System.out.println(tp.getDestination().replaceAll("Switch", "Terminal") + " received " + tp);
                                 System.out.println("----- " + tp + " -----");
                                 sleep(TIME_BETWEEN_PACKETS);
-                                mutex.release();
+                                //mutex.release();
                             } catch (Exception e)
                             {
                                 e.printStackTrace();
@@ -323,6 +323,16 @@ public class TestTerminal extends Thread
     public void acquireSendMutex() throws InterruptedException
     {
         sendMutex.acquire();
+    }
+
+    public void releaseNextMutex()
+    {
+        mutex.release();
+    }
+
+    public void acquireNextMutex() throws InterruptedException
+    {
+        mutex.acquire();
     }
 
 

@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
 import netze2gui.*;
 
@@ -140,6 +141,9 @@ public class MainController implements Initializable
 
     @FXML
     Button startAnimationButton;
+
+    @FXML
+    Button nextAnimationButton;
 
     private final List<Object> allRulesLinks = new ArrayList<>();
     private TestTerminal tt;
@@ -363,6 +367,7 @@ public class MainController implements Initializable
         fromTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("from"));
         toTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("destination"));
         historyTableColumn.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("ruleHistoryString"));
+        testPacketsTableView.setStyle("-fx-font-weight: bold; -fx-font-size: 16");
         testPacketsTableView.setItems(otl);
     }
 
@@ -374,6 +379,7 @@ public class MainController implements Initializable
         fromTableColumn_RES.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("from"));
         toTableColumn_RES.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("destination"));
         historyTableColumn_RES.setCellValueFactory(new PropertyValueFactory<TestPacket, String>("ruleHistoryString"));
+        testPacketsTableView_RES.setStyle("-fx-font-weight: bold; -fx-font-size: 16");
         testPacketsTableView_RES.setItems(otl);
     }
 
@@ -627,9 +633,28 @@ public class MainController implements Initializable
     @FXML
     private void handleStartAnimation(ActionEvent event)
     {
+        for (ImageView iv : packetImageViews)
+        {
+            iv.setOpacity(0.0);
+        }
         tt.releaseSendMutex();
     }
 
+    @FXML
+    private void handleStartAnimationKey(KeyEvent event)
+    {
+        for (ImageView iv : packetImageViews)
+        {
+            iv.setOpacity(0.0);
+        }
+        tt.releaseSendMutex();
+    }
+
+    @FXML
+    private void handleNextAnimation(ActionEvent event)
+    {
+        tt.releaseNextMutex();
+    }
     public void setTestTerminal(TestTerminal tt)
     {
         this.tt = tt;

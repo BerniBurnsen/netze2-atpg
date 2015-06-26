@@ -44,7 +44,11 @@
         <Image url="@../resources/computer.png" />
       </image>
     </ImageView>
-    <Button fx:id="startAnimationButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleStartAnimation" prefHeight="43.3138427734375" prefWidth="64.0" text="Start" />
+    <Button fx:id="startAnimationButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleStartAnimation" onKeyTyped="#handleStartAnimationKey" prefHeight="54.0" prefWidth="88.914306640625" text="Start">
+      <font>
+        <Font name="System Bold" size="15.0" fx:id="x2" />
+      </font>
+    </Button>
     <ImageView fx:id="packetImageView_SwitchA" fitHeight="45.29849023738291" fitWidth="63.914306640625" layoutX="299.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
       <image>
         <Image url="@../resources/paket.png" />
@@ -195,10 +199,10 @@
         <Image url="@../resources/paket_wrong.png" />
       </image>
     </ImageView>
-    <ListView fx:id="allRules" layoutX="865.0" layoutY="276.0" prefHeight="385.0" prefWidth="110.0" />
-    <ListView fx:id="switch_A_RULES" layoutX="217.0" layoutY="23.0" prefHeight="97.0" prefWidth="200.0" />
-    <ListView fx:id="switch_B_RULES" layoutX="679.0" layoutY="23.0" prefHeight="97.0" prefWidth="200.0" />
-    <ListView fx:id="switch_C_RULES" layoutX="605.0" layoutY="493.0" prefHeight="111.0" prefWidth="250.0" />
+    <ListView fx:id="allRules" layoutX="877.0" layoutY="276.0" prefHeight="385.0" prefWidth="113.0" />
+    <ListView fx:id="switch_A_RULES" layoutX="158.0" layoutY="23.0" prefHeight="97.0" prefWidth="260.0" />
+    <ListView fx:id="switch_B_RULES" layoutX="679.0" layoutY="23.0" prefHeight="97.0" prefWidth="260.0" />
+    <ListView fx:id="switch_C_RULES" layoutX="605.0" layoutY="493.0" prefHeight="111.0" prefWidth="267.0" />
     <TableView id="testPackets" fx:id="testPacketsTableView" layoutX="8.0" layoutY="273.0" prefHeight="220.121337890625" prefWidth="305.0">
       <columns>
         <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="66.0" text="from" fx:id="fromTableColumn" />
@@ -228,5 +232,6 @@
     </TableView>
     <Label font="$x1" layoutX="8.0" layoutY="251.0" text="Regular testpackets" />
     <Label font="$x1" layoutX="8.0" layoutY="511.0" text="Reserved testpackets" />
+    <Button fx:id="nextAnimationButton" font="$x2" layoutX="14.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleNextAnimation" onKeyTyped="#handleStartAnimationKey" prefHeight="54.0" prefWidth="88.914306640625" text="Next" />
   </children>
 </AnchorPane>

@@ -19,12 +19,12 @@ public class RuleCell extends ListCell<Object>
             Rule rule = (Rule)item;
             if(rule.isWorked())
             {
-                setStyle("-fx-background-color: chartreuse");
+                setStyle("-fx-background-color: chartreuse; -fx-font-size: 15; -fx-font-weight: bold");
                 setText(item.toString());
             }
             else
             {
-                setStyle("-fx-background-color: crimson");
+                setStyle("-fx-background-color: #ffb2b2; -fx-font-size: 15; -fx-font-weight: bold");
                 setText(item.toString());
             }
         }
@@ -33,12 +33,12 @@ public class RuleCell extends ListCell<Object>
             Link l = (Link)item;
             if(l.isWorked())
             {
-                setStyle("-fx-background-color: chartreuse");
+                setStyle("-fx-background-color: chartreuse; -fx-font-size: 15; -fx-font-weight: bold");
                 setText(item.toString());
             }
             else
             {
-                setStyle("-fx-background-color: crimson");
+                setStyle("-fx-background-color: #ffb2b2; -fx-font-size: 15; -fx-font-weight: bold");
                 setText(item.toString());
             }
         }

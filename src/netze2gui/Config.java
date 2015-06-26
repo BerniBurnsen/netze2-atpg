@@ -8,13 +8,33 @@ import java.util.*;
  */
 public class Config
 {
+    static boolean A2 = true;
+    static boolean A3 = true;
+    static
+    {
+        switch (Praesi.fall)
+        {
+            case 1:
+                A2 = true;
+                A3 = false;
+                break;
+            case 2:
+                A2 = false;
+                A3 = true;
+                break;
+            default:
+                A2 = true;
+                A3 = true;
+                break;
+        }
+    }
     public static final String Switch_A = "Switch A";
     public static final String Switch_B = "Switch B";
     public static final String Switch_C = "Switch C";
 
-    public static final String Terminal_A = "Terminal A";
-    public static final String Terminal_B = "Terminal B";
-    public static final String Terminal_C = "Terminal C";
+    public static final String Terminal_A = "A";
+    public static final String Terminal_B = "B";
+    public static final String Terminal_C = "C";
 
     public static final String Link_AB = "Link AB";
     public static final String Link_AC = "Link AC";
@@ -51,8 +71,8 @@ public class Config
 
     public static final Rule[] Switch_A_rules = {
             new Rule("A:r1", true, Terminal_A, Terminal_A), //false = A:r1, B:r1 mit Reserved
-            new Rule("A:r2", true, Link_AB, Terminal_B), //false = A:r2 mit Reserved //TODO: !!! MIT RESERVED !!!
-            new Rule("A:r3", true, Link_AC, Terminal_C) //false = A:r3 ohne Reserved
+            new Rule("A:r2", A2, Link_AB, Terminal_B), //false = A:r2 mit Reserved //TODO: !!! MIT RESERVED !!!
+            new Rule("A:r3", A3, Link_AC, Terminal_C) //false = A:r3 ohne Reserved
     };
     public static final Rule[] Switch_B_rules = {
             new Rule("B:r1", true, Link_AB, Terminal_A),   //false = B:r1 ohne Reserved
@@ -62,7 +82,7 @@ public class Config
     static String[] ruleC = {Link_AC, Link_BC};
     public static final Rule[] Switch_C_rules = {
             new Rule("C:r1", true, ruleC, Terminal_A, Terminal_B), //false = C:r1 ohne Reserved
-            new Rule("C:r2", false, Terminal_C, Terminal_C) //false = A:r3, B:r3, C:r2, Link BC //TODO: (Reserved wird noch geschickt aber unnötig) //OUT
+            new Rule("C:r2", true, Terminal_C, Terminal_C) //false = A:r3, B:r3, C:r2, Link BC //TODO: (Reserved wird noch geschickt aber unnötig) //OUT
     };
 
     public static final Map<String, Rule[]> rules = new HashMap<>();
